@@ -2,7 +2,7 @@ import React from "react";
 import { Box } from "@mui/material";
 import { TypeAnimation } from "react-type-animation";
 import trace from "../../assets/trace.png";
-import homephoto from "../../assets/home.jpg";
+import homephoto from "../../assets/6.jpg";
 
 const TypingAnimation = (sx) => {
   const delayBetweenStrings = 2000;
@@ -188,8 +188,7 @@ export default function Home() {
           }}
         >
           <img
-            loading="lazy"
-            alt="Elevmi app on smartphone screens"
+            alt="not found"
             src={homephoto}
             style={{
               width: "100%",

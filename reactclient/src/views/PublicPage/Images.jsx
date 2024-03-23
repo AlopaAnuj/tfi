@@ -1,8 +1,8 @@
 import React from 'react'
 import { Grid, Card } from "@mui/material";
-import home from "../../assets/home.jpg";
-import one from "../../assets/1.jpg";
-import two from "../../assets/2.jpg";
+import home from "../../assets/6.jpg";
+import one from "../../assets/9.jpg";
+import two from "../../assets/6.jpg";
 import four from "../../assets/4.jpg";
 import five from "../../assets/5.jpg";
 import six from "../../assets/6.jpg";
@@ -14,8 +14,8 @@ import one1 from "../../assets/11.jpg";
 import one2 from "../../assets/12.jpg";
 import one3 from "../../assets/13.jpg";
 import one4 from "../../assets/14.jpg";
-import one5 from "../../assets/15.jpg";
-import one6 from "../../assets/16.jpg";
+import one5 from "../../assets/11.jpg";
+import one6 from "../../assets/10.jpg";
 const Images = () => {
     return (
         <div>

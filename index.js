@@ -3,11 +3,10 @@ const routerConfig = require("./router.js");
 const express = require("express");
 const models = require("./models/index");
 const app = express();
-const compress = require("compression");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 const DB = require("./utils/server.js").sequelizedb;
 const server = require("./utils/server.js")
+const path = require("path");
 
 
 DB.initialize(envVariable);
@@ -27,6 +26,23 @@ app.use(express.urlencoded({limit: '25mb', extended: true}));
 app.use(cors());
 
 app.use("/api", routerConfig());
+
+const _dirname = path.dirname("")
+const buildPath = path.join(_dirname  , "./reactclient/build");
+app.use(express.static(buildPath))
+
+
+app.get("/*", function(req, res){
+  res.sendFile(
+      path.join(__dirname, "./reactclient/build/index.html"),
+      function (err) {
+        if (err) {
+          res.status(500).send(err);
+        }
+      }
+    );
+
+})
 
 Object.defineProperty(DB, "usingSequelize", {
   value: true,

@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom'
 import NavBar from "../PublicPage/NavBar";
 import Footer from "../PublicPage/Footer";
 import './ListOfState.css';
-import TimeOutRenderer from "../PublicPage/TimeOutRenderer";
 
 export default function AdminHome() {
   const [userList, setuserList] = useState([])
@@ -31,7 +30,6 @@ export default function AdminHome() {
 
   return (
     <div >
-      <TimeOutRenderer />
       <NavBar />
       <div className="pagestyle">
         <Grid container spacing={2}>

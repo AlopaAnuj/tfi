@@ -3,8 +3,6 @@ const _ = require("lodash");
 module.exports = (schemaObject, validateDataForm, useJoiError = false) => {
   // useJoiError determines if we should respond with the base Joi error
   // boolean: defaults to false
-  const _useJoiError = _.isBoolean(useJoiError) && useJoiError;
-
   // Joi validation options
   const _validationOptions = {
     abortEarly: true, // abort after the last validation error

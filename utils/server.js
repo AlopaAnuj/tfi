@@ -1,39 +1,20 @@
 const config = require("config");
-const { AsyncLocalStorage } = require("async_hooks");
 const helmet = require("helmet");
 const nocache = require("nocache");
 const compress = require("compression");
 const bodyParser = require("body-parser");
-let tamper = require("./tamper.js");
-let heartbeat = require("./heartbeat.js")
-const logger = require("./logger");
 const sequelizedb = require("./sequelizedb");
 
-exports.errorHandler = (envVariable) => {
-  return function (err, req, res, next) {
-    logger.error(req.originalUrl);
-    logger.error(err);
-    logger.error(err.stack);
-    if (res.headersSent) {
-      return next(err);
-    }
-    if (envVariable.verboseError == 0) {
-      res.status(500).send("Something went wrong, please try again later");
-    } else {
-      res.status(500).send({ Error: err.stack });
-    }
-  };
-};
 exports.startServer = async function (app) {  
-      logger.debug("setting up http");
+      console.log("starting the server.....");
       let http = require("http");
       let server = http.createServer(app);
 
       server.keepAliveTimeout = 90 * 1000;
       server.listen(config.port, function (err) {
-      logger.debug("server starting at port " + config.port);
+      console.log("server starting at port " + config.port);
       if (err) {
-        logger.error(err);
+        console.log(err);
         throw err;
       }
     });
@@ -74,13 +55,13 @@ exports.setupApp = function (app, getDBInstance, shouldCache) {
     );
     app.use(bodyParser.text());
     app.use((req, res, next) => {
-      logger.debug({
+      console.log({
         url: req.url,
         method: req.method,
         description: "Request received",
       });
       res.on("finish", () => {
-        logger.debug({
+        console.log({
           url: req.url,
           method: req.method,
           status: res.statusCode,
@@ -106,49 +87,6 @@ exports.setupApp = function (app, getDBInstance, shouldCache) {
       }
       next();
     });
-    app.use(
-      tamper(function (req) {
-        let transactionDone = false;
-        let transactionRolledBack = false;
-        if (
-          req.method != "POST" &&
-          req.method != "PUT" &&
-          req.method != "DELETE"
-        ) {
-          return false;
-        }
-        return async function (body, statusCode) {
-          try {
-            if (!transactionDone) {
-              if (statusCode >= 400) {
-                logger.debug("rollback initiated");
-                let t = req.transaction.rollback();
-                transactionDone = true;
-                await t;
-              } else {
-                logger.debug("commit initiated");
-                let t = req.transaction.commit();
-                transactionDone = true;
-                await t;
-                logger.debug("commit successful");
-              }
-            }
-            return body;
-          } catch (error) {
-            if (!transactionRolledBack) {
-              logger.debug("attempt to rollback is initiated");
-              req.transaction.rollback().catch((_err) => {
-                logger.error("error on rolling back ignored");
-              });
-              transactionRolledBack = true;
-            }
-            logger.error("transaction commit failure");
-          }
-        };
-      })
-    );
   };
 
-  exports.heartbeat =heartbeat;
-  exports.logger =logger;
   exports.sequelizedb = sequelizedb;

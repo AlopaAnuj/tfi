@@ -49,10 +49,6 @@ Object.defineProperty(DB, "usingSequelize", {
   enumerable: false,
 });
 
-server.heartbeat.initialise(
-  DB,
-  envVariable.healthCheckPort
-);
 server.startServer(app).catch((err) => {
     console.log(err)
 //   logger.info(err);

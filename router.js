@@ -1,9 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const envVariable = require("./config/envValues.js");
-const swaggerUi = require("swagger-ui-express");
-const swaggerConfig = require("./SwaggerConfig");
-const errorHandler = require("./utils/server.js").errorHandler;
 const jwtManager = require("./utils/authenticateToken");
 const wrap = require("async-middleware").wrap;
 
@@ -43,20 +39,6 @@ function routerConfig(){
   router.use("/adminservice", jwtManager.authoriseAdmin, require("./api/AdminService.js"));
   router.use("/userservice", jwtManager.authoriseUser, require("./api/UserService.js"));
   router.use("/userauthservice", require("./api/UserAuthService.js"));
-
-  router.use(
-    "/apidocs",
-    swaggerUi.serve,
-    swaggerUi.setup(null, {
-      explorer: true,
-      swaggerUrls: [{ url: `/api/generate-json/v1`, name: "v1" }],
-    })
-  );
-  router.get("/generate-json/:apiVersion", (req, res) =>
-    res.status(200).json(swaggerConfig["v1"])
-  );
-  router.use(errorHandler(envVariable));
-
   return router;
 }
 

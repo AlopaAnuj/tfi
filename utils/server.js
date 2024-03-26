@@ -31,6 +31,7 @@ exports.startServer = async function (app) {
 
       server.keepAliveTimeout = 90 * 1000;
       server.listen(config.port, function (err) {
+      logger.debug("server starting at port " + config.port);
       if (err) {
         logger.error(err);
         throw err;
@@ -39,9 +40,6 @@ exports.startServer = async function (app) {
   };
 
 exports.setupApp = function (app, getDBInstance, shouldCache) {
-    let asyncLocalStorageInstance = new AsyncLocalStorage();
-    global.amalgamRequestContext = asyncLocalStorageInstance;
-  
     app.use(
       helmet({
         hidePoweredBy: true,
@@ -62,12 +60,6 @@ exports.setupApp = function (app, getDBInstance, shouldCache) {
     if (!shouldCache) {
       app.use(nocache());
     }
-    app.use(function (_req, res, next) {
-      res.set("x-app-version", config.appVersion);
-      res.set("x-app-modelNumber", config.appModelNumber);
-      res.set("x-app-manufactureDate", config.appManufactureDate);
-      next();
-    });
   
     app.use(compress());
     app.use(
@@ -81,7 +73,6 @@ exports.setupApp = function (app, getDBInstance, shouldCache) {
       })
     );
     app.use(bodyParser.text());
-    // app.use(requestIdMiddleware(asyncLocalStorageInstance));
     app.use((req, res, next) => {
       logger.debug({
         url: req.url,
@@ -98,38 +89,7 @@ exports.setupApp = function (app, getDBInstance, shouldCache) {
       });
       next();
     });
-    // app.use(auditAndErrorHandler.errorHandler(config));
-    app.use((req, res, next) => {
-      let urlAfterSplit = req.url.split("/");
-      if (!urlAfterSplit.includes("api")) {
-        return next();
-      } else if (urlAfterSplit.includes("apidocs")) {
-        return next();
-      } else if (
-        urlAfterSplit[config.apiVersionPosition].match(/^V[0-9]{1,2}$/)
-      ) {
-        let apiVersion = urlAfterSplit[config.apiVersionPosition].substring(1);
-        if (config.supportedApiVersion.split(",").includes(apiVersion)) {
-          req.apiVersion = parseInt(apiVersion);
-          urlAfterSplit.splice(config.apiVersionPosition, 1);
-          req.url = urlAfterSplit.join("/");
-          return next();
-        } else {
-          return res
-            .status(NOTFOUND)
-            .json({ description: "api version not supported" });
-        }
-      } else {
-        if (config.supportedApiVersion.split(",").includes("1")) {
-          req.apiVersion = 1;
-          return next();
-        } else {
-          return res
-            .status(NOTFOUND)
-            .json({ description: "api version not supported" });
-        }
-      }
-    });
+
     app.use(async function (req, res, next) {
       if (getDBInstance) {
         req.dbInstance = getDBInstance(req);

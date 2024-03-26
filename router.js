@@ -34,8 +34,15 @@ const verifyUser = (req, res, next) => {
     });
   }
 }
+const testServer = (req, res) => {
+  return res.status(200).json({
+    status: "ok",
+  });
+}
+
 function routerConfig(){
   router.use("/verifyuser", wrap(verifyUser));
+  router.use("/testserver", wrap(testServer));
   router.use("/adminservice", jwtManager.authoriseAdmin, require("./api/AdminService.js"));
   router.use("/userservice", jwtManager.authoriseUser, require("./api/UserService.js"));
   router.use("/userauthservice", require("./api/UserAuthService.js"));

@@ -20,8 +20,6 @@ router.post(
     "/login",
     wrap(validateLoginDetails),
     wrap(async (req, res) => {
-console.log(encrypt.computeHash("andhrapradesh"))
-console.log(await encrypt.getHashedPassword("andhrapradesh@123"))
         let userName = encrypt.computeHash(req.body.userName);
         let result = await UserAuthDb.getUserDetails(req.dbInstance, userName);
         if (result.length > 0) {

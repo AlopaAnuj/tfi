@@ -14,9 +14,7 @@ router.post(
     "/addCondidate",
     wrap(validateCondidateObj),
     wrap(async (req, res) => {
-        
         req.body.userId = req.user.userId;
-        console.log(req.body.photo)
         let result = await AdminDb.saveAndUpdateCondidate(req.dbInstance, req.body);
         return res.status(200).json({
             result

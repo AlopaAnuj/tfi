@@ -27,21 +27,21 @@ app.use(cors());
 
 app.use("/api", routerConfig());
 
-const _dirname = path.dirname("");
-const buildPath = path.join(_dirname  , "./reactclient/build");
-app.use(express.static(buildPath))
+// const _dirname = path.dirname("");
+// const buildPath = path.join(_dirname  , "./reactclient/build");
+// app.use(express.static(buildPath))
 
 
-app.get("/*", function(req, res){
-  res.sendFile(
-      path.join(__dirname, "./reactclient/build/index.html"),
-      function (err) {
-        if (err) {
-          res.status(500).send(err);
-        }
-      }
-    );
-});
+// app.get("/*", function(req, res){
+//   res.sendFile(
+//       path.join(__dirname, "./reactclient/build/index.html"),
+//       function (err) {
+//         if (err) {
+//           res.status(500).send(err);
+//         }
+//       }
+//     );
+// });
 
 Object.defineProperty(DB, "usingSequelize", {
   value: true,

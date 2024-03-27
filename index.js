@@ -27,7 +27,9 @@ app.use(cors());
 
 app.use("/api", routerConfig());
 
-const buildPath = path.resolve("./reactclient/build");
+const _dirname = path.dirname("");
+
+const buildPath = path.join(_dirname  , "./reactclient/build");
 app.use(express.static(buildPath))
 
 

@@ -29,7 +29,7 @@ app.use("/api", routerConfig());
 
 const _dirname = path.dirname("");
 
-const buildPath = path.join(_dirname  , "./reactclient/build");
+const buildPath = path.resolve("./reactclient/build");
 app.use(express.static(buildPath))
 
 

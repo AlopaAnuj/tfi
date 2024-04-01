@@ -12,7 +12,22 @@ exports.getAllCondidates = async (dbInstance, userId) => {
   });
 };
 
-exports.saveAndUpdateCondidate = async (dbInstance, condidateObj) => {
-  return dbInstance.sequelize.models.condidates.upsert(condidateObj, {
+exports.getCondidateDetails = async (dbInstance, id, userId) => {
+  return dbInstance.sequelize.models.condidates.findOne({ where: {id, userId}
+  });
+};
+
+exports.deleteCondidate = async (dbInstance, id, userId, transaction) => {
+  return dbInstance.sequelize.models.condidates.destroy({ where: {id, userId}, transaction
+  });
+};
+
+exports.saveAndUpdateCondidate = async (dbInstance, condidateObj, transaction) => {
+  return dbInstance.sequelize.models.condidates.upsert(condidateObj, {transaction
+  });
+};
+
+exports.saveAndUpdateStateAdmin = async (dbInstance, adminObj, transaction) => {
+  return dbInstance.sequelize.models.stateLogin.upsert(adminObj, {transaction
   });
 };

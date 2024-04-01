@@ -1,112 +1,183 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Typography, Card } from "@mui/material";
-import Header from './Header';
-import Footer from './Footer';
+import React, { useState, useContext } from "react";
+import {
+  useTheme,
+  Card,
+  Typography,
+  InputAdornment,
+  Stack,
+  Box,
+} from "@mui/material";
+import axios from "axios";
+import queryString from "query-string";
+import { Redirect } from "react-router-dom";
+import { createUserObject } from "./CommonFunction";
+import FormikTextField from "../../components/formikcomponent/TextField";
+import { Helmet } from "react-helmet";
+import { Formik, Field, Form } from "formik";
+import { string, object } from "yup";
+import Button from "../../components/customcomponents/CustomButton";
+import GridContainer from "../../components/grid/GridContainer.jsx";
+import GridItem from "../../components/grid/GridItem.jsx";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { AuthContext } from "../../context/AuthContext";
+import { LoginPageStyle } from "../../components/customstyles/LoginPageStyle";
 
-const Login = (props) => {
-  const [userName, setUserName] = useState('')
-  const [password, setPassword] = useState('')
-  const [userNameError, setUserNameError] = useState('')
-  const [passwordError, setPasswordError] = useState('')
+const useStyles = () => {
+  const theme = useTheme();
+  return LoginPageStyle(theme);
+};
 
-  const navigate = useNavigate()
+function LoginPage(props) {
+  const styles = useStyles();
+  const { changeUser } = useContext(AuthContext);
+  const [showOTP, setShowOtp] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [redirectTo, setRedirectTo] = useState("");
+  const [forceRedirect, setForceRedirect] = useState(false);
+  const [isLoginCompleted, setLoginCompleted] = useState(false);
 
-  const onButtonClick = () => {
-    // Set initial error values to empty
-    setUserNameError('')
-    setPasswordError('')
+  const yupSchema = object({
+    unserName: string()
+      .trim()
+      .max(50, "User Name length too long.")
+      .required("This Field is required."),
+    password: string().required("This Field is required.")
+  });
 
-    // Check if the user has entered both fields correctly
-    if ('' === userName) {
-      setUserNameError('Please enter your userName')
-      return
+  const hanldeError = (errorData) => {
+    setIsError(true);
+    if (errorData.response.status === 403) {
+      setErrorMessage(errorData.response.data.warningmessage);
+    } else {
+      setErrorMessage("Something went wrong.");
     }
+  };
+  const handleSubmit = async (values) => {
+    localStorage.setItem("unserName", values.unserName);
+    setLoginCompleted(true);
+    let { redirectTo } = queryString.parse(props.location.search);
+    try {
+      let response = await axios.post("/api/userauthservice/login", {
+        userName: values.unserName,
+        password: values.password,
+      });
+      if (response.status === 200) {
+        // console.log(response.data.accessToken)
+        // localStorage.setItem("refreshToken", response.data.refreshToken);
+        localStorage.setItem("accessToken", response.data.accessToken);
+        changeUser(createUserObject(response.data));
+        setLoginCompleted(false);
+        setForceRedirect(true);
+        if(response.data.role === 1){
+          setRedirectTo("/superadmin");
 
-    // if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(userName)) {
-    //   setUserNameError('Please enter a valid userName')
-    //   return
-    // }
+        }else if(response.data.role === 2){ 
+          setRedirectTo("/stateadmin");
 
-    if ('' === password) {
-      setPasswordError('Please enter a password')
-      return
-    }
-
-    if (password.length < 7) {
-      setPasswordError('The password must be 8 characters or longer')
-      return
-    }
-    logIn()
-
-  }
-
-
-  const logIn = () => {
-    fetch('/api/userauthservice/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ userName, password }),
-    })
-      .then((r) => r.json())
-      .then((r) => {
-        if (r.acessToken) {
-          localStorage.setItem('user', JSON.stringify({ userName, role: r.role, acessToken: r.acessToken }))
-          props.setLoggedIn(true)
-          props.setUserName(userName)
-          if (r.role === 1) {
-            navigate('/adminhome')
-
-          } else if (r.role === 2) {
-            navigate('/userhome')
-          }
-        } else {
-          window.alert('Wrong username or password')
         }
-      })
-  }
-  return (
-    <div>
-      <Header />
-      <div className={'publicmaincontainer'}>
-        <Card className='logincard'>
-        <div className={'titleContainer'}>
-          <Typography style={{ fontSize: "40px", fontWeight: 700, color: "#551A8B" }}>Login</Typography>
-        </div>
-        <br />
-        <div className={'inputContainer'}>
-          <label>{"Username:"}</label>
-          <input
-            value={userName}
-            placeholder="Enter your username here"
-            onChange={(ev) => setUserName(ev.target.value)}
-            className={'inputBox'}
-          />
-          <label className="errorLabel">{userNameError}</label>
-        </div>
-        <br />
-        <div className={'inputContainer'}>
-          <label>{"Password:"}</label>
-          <input
-            value={password}
-            type={"password"}
-            placeholder="Enter your password here"
-            onChange={(ev) => setPassword(ev.target.value)}
-            className={'inputBox'}
-          />
-          <label className="errorLabel">{passwordError}</label>
-        </div>
-        <br />
-        <div className={'inputContainer'} style={{marginLeft:"125px"}}>
-          <input className={'inputButton'} type="button" onClick={onButtonClick} value={'Log in'} />
-        </div>
-        </Card>
-      </div>
-      <Footer />
-    </div>
-  )
-}
+      }
+    } catch (err) {
+      setLoginCompleted(false);
+      hanldeError(err);
+    }
+  };
 
-export default Login
+  return (
+    <>
+      <Helmet>
+        <title>Login</title>
+      </Helmet>
+      <Stack alignItems="center" justifyContent="center" sx={styles.container}>
+        <Card raised={true} sx={styles.card}>
+          <Box sx={styles.formLaylout}>
+            <Typography sx={styles.headingtext}>Login</Typography>
+            {forceRedirect ? (
+              <Redirect to={redirectTo} />
+            ) : (
+              <>
+                <Formik
+                  initialValues={{ unserName: "", otp: "", password: "" }}
+                  onSubmit={handleSubmit}
+                  validationSchema={yupSchema}
+                >
+                  {(props) => (
+                    <Form>
+                      <GridContainer>
+                        <GridItem lg={12} md={12} sm={12} xs={12}>
+                          <Field
+                            component={FormikTextField}
+                            variant="filled"
+                            label="Enter Email"
+                            fullWidth
+                            name="unserName"
+                            placeholder="Enter Email"
+                          />
+                        </GridItem>
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <GridItem>
+                          <Field
+                            onChange={() => setIsError(false)}
+                            component={FormikTextField}
+                            variant="filled"
+                            label="Enter Password"
+                            id="password"
+                            fullWidth
+                            name="password"
+                            placeholder="Password"
+                            autoComplete="off"
+                            InputProps={{
+                              type: showOTP ? "" : "password",
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  {showOTP ? (
+                                    <VisibilityIcon
+                                      onClick={() => setShowOtp(!showOTP)}
+                                      sx={styles.inputIconStyle}
+                                    />
+                                  ) : (
+                                    <VisibilityOffIcon
+                                      onClick={() => setShowOtp(!showOTP)}
+                                      sx={styles.inputIconStyle}
+                                    />
+                                  )}
+                                </InputAdornment>
+                              ),
+                            }}
+                          />
+                        </GridItem>
+
+                        <GridItem lg={12} md={12} sm={12} xs={12}>
+                          {(isError) && (
+                            <p style={{ color: "#d51035" }}>{errorMessage}</p>
+                          )}
+                        </GridItem>
+                        <GridItem lg={12} md={12} sm={12} xs={12}>
+                          <Button
+                            type="submit"
+                            primary
+                            dashboard
+                            size="small"
+                            loading={isLoginCompleted}
+                            disabled={isLoginCompleted}
+                          >
+                            Login
+                          </Button>
+                        </GridItem>
+                      </GridContainer>
+                    </Form>
+                  )}
+                </Formik>
+              </>
+            )}
+          </Box>
+        </Card>
+      </Stack>
+    </>
+  );
+}
+export default LoginPage;

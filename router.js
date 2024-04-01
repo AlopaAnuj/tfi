@@ -43,7 +43,7 @@ const testServer = (req, res) => {
 function routerConfig(){
   router.use("/verifyuser", wrap(verifyUser));
   router.use("/testserver", wrap(testServer));
-  router.use("/adminservice", jwtManager.authoriseAdmin, require("./api/AdminService.js"));
+  router.use("/superadminservice", jwtManager.authoriseAdmin, require("./api/SuperAdminService.js"));
   router.use("/userservice", jwtManager.authoriseUser, require("./api/UserService.js"));
   router.use("/userauthservice", require("./api/UserAuthService.js"));
   return router;

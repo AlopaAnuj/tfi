@@ -5,7 +5,7 @@ const SchemaValidator = require("../utils/SchemaValidation");
 const JoiSchema = require("./JoiSchema.js");
 
 const validateCondidateObj = SchemaValidator(
-    JoiSchema.validateMobileClientLogin,
+    JoiSchema.validateCreateCondidate,
     "body",
     true
 );
@@ -14,10 +14,38 @@ router.post(
     "/addCondidate",
     wrap(validateCondidateObj),
     wrap(async (req, res) => {
+        let transaction = req.transaction;
         req.body.userId = req.user.userId;
-        let result = await AdminDb.saveAndUpdateCondidate(req.dbInstance, req.body);
+        await AdminDb.saveAndUpdateCondidate(req.dbInstance, req.body, transaction);
         return res.status(200).json({
-            result
+            "statusDescription": "Data saved successfully."
+        });
+    })
+);
+
+const validateCondidateId = SchemaValidator(
+    JoiSchema.condidateId,
+    "params",
+    true
+);
+router.get(
+    "/getCondidateDetails/:id",
+    wrap(validateCondidateId),
+    wrap(async (req, res) => {
+        let result = await AdminDb.getCondidateDetails(req.dbInstance, req.params.id, req.user.userId);
+        return res.status(200).json({
+            result,
+        });
+    })
+);
+
+router.delete(
+    "/deleteCondidate/:id",
+    wrap(validateCondidateId),
+    wrap(async (req, res) => {
+        await AdminDb.deleteCondidate(req.dbInstance, req.params.id, req.user.userId);
+        return res.status(200).json({
+            "statusDescription": "Condidate deleted successfully."
         });
     })
 );

@@ -4,6 +4,7 @@ const nocache = require("nocache");
 const compress = require("compression");
 const bodyParser = require("body-parser");
 const sequelizedb = require("./sequelizedb");
+let tamper = require("./tamper.js");
 
 exports.startServer = async function (app) {  
       console.log("starting the server.....");
@@ -87,6 +88,48 @@ exports.setupApp = function (app, getDBInstance, shouldCache) {
       }
       next();
     });
+    app.use(
+      tamper(function (req) {
+        let transactionDone = false;
+        let transactionRolledBack = false;
+        if (
+          req.method != "POST" &&
+          req.method != "PUT" &&
+          req.method != "DELETE"
+        ) {
+          return false;
+        }
+        return async function (body, statusCode) {
+          try {
+            if (!transactionDone) {
+              if (statusCode >= 400) {
+                console.log("rollback initiated");
+                let t = req.transaction.rollback();
+                transactionDone = true;
+                await t;
+              } else {
+                console.log("commit initiated");
+                let t = req.transaction.commit();
+                transactionDone = true;
+                await t;
+                console.log("commit successful");
+              }
+            }
+            return body;
+          } catch (error) {
+            console.log("traction", error)
+            if (!transactionRolledBack) {
+              console.log("attempt to rollback is initiated");
+              req.transaction.rollback().catch((_err) => {
+                console.log("error on rolling back ignored");
+              });
+              transactionRolledBack = true;
+            }
+            console.log("transaction commit failure");
+          }
+        };
+      })
+    );
   };
 
   exports.sequelizedb = sequelizedb;

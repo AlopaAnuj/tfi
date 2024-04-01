@@ -33,9 +33,9 @@ router.post(
                     stateName: result[0].stateName,
                     role: result[0].role
                 }
-                let acessToken = generateJwtToken(userObj, "60m")
+                let accessToken = generateJwtToken(userObj, "60m")
                 return res.status(200).json({
-                    acessToken,
+                    accessToken,
                     role: result[0].role
                 });
             }

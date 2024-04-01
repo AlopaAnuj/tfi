@@ -153,7 +153,6 @@ function Navbar(props) {
               <img src={webNavbarLogo} alt="logo" width="160px" height="61px" />
             </NavLink>
           </Typography>
-          {isAuthenticated && (
             <IconButton
               sx={{ ...styles.menuButton, display: { sm: "none" } }}
               color="inherit"
@@ -162,7 +161,6 @@ function Navbar(props) {
             >
               <MenuIcon />
             </IconButton>
-          )}
           <Typography
             variant="h6"
             color="inherit"

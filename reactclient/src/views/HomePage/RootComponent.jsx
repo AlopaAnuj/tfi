@@ -47,7 +47,12 @@ function RootComponent() {
       title: "Contact",
       style: styles.navBarIconStyle,
     },
-
+    {
+      to: `../login`,
+      image: contactUs,
+      title: "Login",
+      style: styles.navBarIconStyle,
+    },
   ];
   return (
     <>{console.log("match.url", match.url)}

@@ -136,7 +136,6 @@ const CreateCondidateUI = (props) => {
                         }}
                     />
                 </GridItem>
-
                 <GridItem
                     lg={6}
                     md={6}
@@ -148,27 +147,13 @@ const CreateCondidateUI = (props) => {
                     <Field
                         name="gender"
                         label="Gender"
+                        placeholder={""}
                         options={genderArray}
                         component={FormikSelectWithLabel}
                         className={"selectstyle"}
                         isSearchable={false}
                         variant="filled"
-                        fullWidth
                         menuPortalTarget={document.body}
-                        styles={{ menuPortal: base => ({ ...base, zIndex: 10009 }) }}
-                        textFieldProps={{
-                            variant: "filled",
-                            label: "Date of Birth",
-                            InputProps: {
-                                with: "100%",
-                                readOnly: true,
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <CalendarTodayIcon />
-                                    </InputAdornment>
-                                ),
-                            },
-                        }}
                     />
                 </GridItem>
                 <GridItem
@@ -281,7 +266,38 @@ const CreateCondidateUI = (props) => {
                     // InputProps={{ multiline: true, rows: 2 }}
                     />
                 </GridItem>
-
+                <GridItem
+                    lg={6}
+                    md={6}
+                    sm={12}
+                    xs={12}
+                    sx={styles.formikFieldStyle}
+                >
+                    <Field
+                        name="aadharNumber"
+                        label="Aadhar Number"
+                        variant="filled"
+                        fullWidth
+                        component={FormikTextField}
+                        placeholder="Aadhar Number"
+                    />
+                </GridItem>
+                <GridItem
+                    lg={6}
+                    md={6}
+                    sm={12}
+                    xs={12}
+                    sx={styles.formikFieldStyle}
+                >
+                    <Field
+                        name="birthCertificateNumber"
+                        label="Birth Certificate Number"
+                        variant="filled"
+                        fullWidth
+                        component={FormikTextField}
+                        placeholder="Birth Certificate Number"
+                    />
+                </GridItem>
                 <GridItem lg={6} md={6} sm={12} xs={12} sx={styles.formikFieldStyle}>
                     <Field
                         component={CustomImageInput}

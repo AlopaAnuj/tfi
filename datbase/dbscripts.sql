@@ -35,3 +35,19 @@ CREATE TABLE condidates (
     UNIQUE KEY `contactNumber` (`contactNumber`),
     FOREIGN KEY (`userId`) REFERENCES `stateLogin` (`id`)
 )
+
+alter table condidates add column status int not null;
+alter table condidates add column aadharNumber int not null;
+alter table condidates add column birthCertificateNumber int not null;
+
+
+CREATE TABLE tokenDetails (
+    id int NOT NULL AUTO_INCREMENT,
+    userId int NOT NULL,
+    refreshToken text NOT NULL,
+    createddatetime datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modifieddatetime datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY `id` (`id`),
+    primary key(userId),
+    FOREIGN KEY (`userId`) REFERENCES `stateLogin` (`id`)
+)

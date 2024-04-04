@@ -39,11 +39,12 @@ export default function ({maxDate,minDate, field, form, value, onChange, onBlur,
   return (
     <>
       <DatePicker
-        customInput={<FormikDateField textFieldProps={textFieldProps} />}
+        customInput={<FormikDateField textFieldProps={textFieldProps}/>}
         selected={field.value}
         onChange={changeHandler}
         onBlur={blurHandler}
         {...other}
+        fullWidth
         maxDate = {maxDate}
         minDate = {minDate}
       />

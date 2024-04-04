@@ -37,7 +37,7 @@ export default function ({
   const errorText = getIn(form.errors, field.name);
   return (
     <>
-      <FormControl variant="filled">
+      <FormControl variant="filled" fullWidth>
         <Select
           {...otherProps}
           value={field.value}

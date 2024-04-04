@@ -52,7 +52,7 @@ const MAX_FILE_SIZE = 102400; //100KB
 function CreateCondidate(props) {
   const styles = useStyles();
   const history = useHistory();
-  const initialValues = { fullName: "", guardianName: "", contactNumber: "", email: "", dateOfBirth: "", gender: "", state: "", district: "", primaryRole: "", secondaryRole: "", address: "", photo: "", aadhar: "", birthCertificate: "", acceptTermAndCondition: "" };
+  const initialValues = { fullName: "", guardianName: "", contactNumber: "", email: "", dateOfBirth: "", gender: "", state: "", district: "", primaryRole: "", secondaryRole: "", address: "", aadharNumber: "", birthCertificateNumber: "", photo: "", aadhar: "", birthCertificate: "", acceptTermAndCondition: "" };
   
   const requiredMessage = "This field is required.";
   const { makeAuthenticatedApiCall } = useContext(AuthContext);
@@ -81,6 +81,8 @@ function CreateCondidate(props) {
     aadhar:  mixed().required(requiredMessage).test("fileSize", "Max allowed size is 100KB.",value => value && value.size <= MAX_FILE_SIZE),
     birthCertificate:  mixed().required(requiredMessage).test("fileSize", "Max allowed size is 100KB.",value => value && value.size <= MAX_FILE_SIZE),
     acceptTermAndCondition: string().required(requiredMessage),
+    aadharNumber: string().max(12).min(12).required(requiredMessage),
+    birthCertificateNumber: string().max(16).min(4).required(requiredMessage)
   });
 
  
@@ -117,7 +119,9 @@ function CreateCondidate(props) {
          address: values.address,
          photo: values.photo.base64Rep,
          aadhar: values.photo.base64Rep,
-         birthCertificate: values.photo.base64Rep
+         birthCertificate: values.photo.base64Rep,
+         aadharNumber: values.aadharNumber,
+         birthCertificateNumber: values.birthCertificateNumber
     }
     if(id){
         dataToSend.id = id;

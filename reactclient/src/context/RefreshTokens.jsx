@@ -7,8 +7,7 @@ export default function getNewToken() {
         method: "post",
         url: "/api/userauthservice/accessTokenByRefreshToken",
         data: {
-          refreshToken: localStorage.getItem("refreshToken"),
-          tzOffset: new Date().getTimezoneOffset() * -1,
+          refreshToken: localStorage.getItem("refreshToken")
         },
       });
       let refreshResult;

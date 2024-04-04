@@ -40,7 +40,7 @@ export default function ({ field, form, name, authenticatedApiCall, error, onCha
 				}
 			},
 			imgPic: {
-				width: 300, height: 150, background: "#fff", textAlign: "center", display: "flex", justifyContent: "center", alignItems: "center"
+				width: 300, height: 150, background: "#fff", textAlign: "center", display: "flex", alignItems: "center"
 			}
 		}
 	}

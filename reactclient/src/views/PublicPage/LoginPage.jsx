@@ -64,8 +64,7 @@ function LoginPage(props) {
         password: values.password,
       });
       if (response.status === 200) {
-        // console.log(response.data.accessToken)
-        // localStorage.setItem("refreshToken", response.data.refreshToken);
+        localStorage.setItem("refreshToken", response.data.refreshToken);
         localStorage.setItem("accessToken", response.data.accessToken);
         changeUser(createUserObject(response.data));
         setLoginCompleted(false);

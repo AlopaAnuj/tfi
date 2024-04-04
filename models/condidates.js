@@ -24,6 +24,14 @@ module.exports = function (sequelize, DataTypes) {
                 type: DataTypes.STRING(100),
                 allowNull: false,
             },
+            status: {
+                type: DataTypes.INTEGER(10),
+                allowNull: false,
+            },
+            aadharNumber: {
+                type: DataTypes.INTEGER(10),
+                allowNull: false,
+            },
             address: {
                 type: DataTypes.JSON,
                 allowNull: false,

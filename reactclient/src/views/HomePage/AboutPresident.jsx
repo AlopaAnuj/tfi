@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Grid, Card } from "@mui/material";
+import { Typography, Grid, Card, Avatar } from "@mui/material";
 import one from "../../assets/1.jpg";
 import five from "../../assets/5.jpg";
 const useStyles = () => {
@@ -43,11 +43,12 @@ export default function Aboutpresident() {
                     <Card style={styles.displayFlex}>
                         <Grid item xl={6} lg={6} md={12} xs={12}>
                             <div style={styles.titleContainer}>
-                                <img
+                                <Avatar
                                     src={one}
                                     alt={"one"}
                                     style={{
-                                        width: "100%",
+                                        width: "300px",
+                                        height:"300px",
                                         aspectRatio: "1",
                                         objectFit: "auto",
                                         objectPosition: "center",
@@ -83,11 +84,12 @@ export default function Aboutpresident() {
                         </Grid>
                         <Grid item xl={6} lg={6} md={12} xs={12} >
                             <div style={styles.titleContainer}>
-                                <img
+                                <Avatar
                                     src={five}
                                     alt={"five"}
                                     style={{
-                                        width: "100%",
+                                        width: "300px",
+                                        height:"300px",
                                         aspectRatio: "1",
                                         objectFit: "auto",
                                         objectPosition: "center",

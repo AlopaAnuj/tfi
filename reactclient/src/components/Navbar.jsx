@@ -80,7 +80,6 @@ function Navbar(props) {
   });
   const [scroll, setScroll] = React.useState(window.scrollY);
   const { logout } = React.useContext(AuthContext);
-  const homeLink = "/superadmin/dashboard";
 
   const toggleDrawer = (side, open) => (event) => {
     if (
@@ -122,6 +121,7 @@ function Navbar(props) {
             </ListItem>
           </div>
         ))}
+        {isAuthenticated && <LogoutButton setShowLogoutDialog={setShowLogoutDialog} /> }
       </List>
     </div>
   );
@@ -143,14 +143,14 @@ function Navbar(props) {
             <NavLink
               sx={{
                 ...styles.logoBg,
-                pointerEvents: isAuthenticated ? "initial" : "none",
+                pointerEvents: "initial",
               }}
-              to={homeLink}
+              to={props.homeLink}
               activeStyle={{
                 borderBottom: "none",
               }}
             >
-              <img src={webNavbarLogo} alt="logo" width="160px" height="61px" />
+              <img src={webNavbarLogo} alt="logo" width="100px" height="61px" />
             </NavLink>
           </Typography>
             <IconButton
@@ -167,20 +167,20 @@ function Navbar(props) {
             sx={{
               ...styles.logoForMobile,
               display: { sm: "none" },
-              marginLeft: "20%",
+              marginLeft: "10%",
             }}
           >
             <NavLink
-              to={homeLink}
+              to={props.homeLink}
               sx={{
                 padding: "8px 20px 8px 20px",
-                pointerEvents: isAuthenticated ? "initial" : "none",
+                pointerEvents: "initial",
               }}
               activeStyle={{
                 borderBottom: "none",
               }}
             >
-              <img src={webNavbarLogo} alt="logo1" />
+              <img src={webNavbarLogo} alt="logo1" width="100px" height="61px"/>
             </NavLink>
           </Typography>
           {/*big screen*/}
@@ -197,7 +197,7 @@ function Navbar(props) {
                 {link.title}
               </NavLink>
             ))}
-            {isAuthenticated ? <LogoutButton setShowLogoutDialog={setShowLogoutDialog} /> : <LoginButton />}
+            {isAuthenticated && <LogoutButton setShowLogoutDialog={setShowLogoutDialog} /> }
           </Box>
         </Toolbar>
       </AppBar>

@@ -32,7 +32,7 @@ function SuperAdmin() {
       <Helmet>
         <title>Super Admin</title>
       </Helmet>
-      <Navbar Nav={Nav} />
+      <Navbar Nav={Nav} homeLink={"/superadmin/dashboard"}/>
 
       <Switch>
         <Route

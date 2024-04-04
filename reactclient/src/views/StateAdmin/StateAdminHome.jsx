@@ -31,7 +31,7 @@ function SuperAdmin() {
       <Helmet>
         <title>State Admin</title>
       </Helmet>
-      <Navbar Nav={Nav} />
+      <Navbar Nav={Nav} homeLink={"/stateadmin/dashboard"}/>
 
       <Switch>
         <Route

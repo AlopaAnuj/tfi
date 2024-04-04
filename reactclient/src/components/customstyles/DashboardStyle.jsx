@@ -2,7 +2,9 @@ const getDashboardObject = (theme) => {
   return {
     navBarIconStyle: {
       width: "18px",
+      height:"18px",
       marginRight: "8px",
+      marginTop:"3px"
     },
     addPatientButton: {
       padding: "10px 22px",
@@ -83,7 +85,7 @@ const getDashboardObject = (theme) => {
       flexDirection: "row",
       alignItems: "center",
       cursor: "pointer",
-      padding: "20px 10px",
+      padding: "20px 40px",
       marginRight: "10px",
       float: "right",
       fontSize: "14px",
@@ -104,7 +106,7 @@ const getDashboardObject = (theme) => {
       backgroundColor: theme.custom.navbarImageBg,
     },
     logoForMobile: {
-      [`& img`]: { width: "150px" },
+      [`& img`]: { width: "100px" },
     },
     dispBlk: {
       [theme.breakpoints.down("sm")]: { display: "block", width: "100%" },

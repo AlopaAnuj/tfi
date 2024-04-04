@@ -32,7 +32,7 @@ function RootComponent() {
     {
       to: `${match.url}/gallery`,
       image: galleryImage,
-      title: "Gallary",
+      title: "Gallery",
       style: styles.navBarIconStyle,
     },
     {
@@ -55,11 +55,11 @@ function RootComponent() {
     },
   ];
   return (
-    <>{console.log("match.url", match.url)}
+    <>
       <Helmet>
         <title>Home Page</title>
       </Helmet>
-      <Navbar Nav={Nav} />
+      <Navbar Nav={Nav} homeLink={"/dashboard/home"} />
       <Switch>
         <Route
           path={`${match.url}/contact`}

@@ -66,6 +66,8 @@ function LoginPage(props) {
       if (response.status === 200) {
         localStorage.setItem("refreshToken", response.data.refreshToken);
         localStorage.setItem("accessToken", response.data.accessToken);
+        localStorage.setItem("role", response.data.role);
+        localStorage.setItem("stateName", response.data.userState);
         changeUser(createUserObject(response.data));
         setLoginCompleted(false);
         setForceRedirect(true);

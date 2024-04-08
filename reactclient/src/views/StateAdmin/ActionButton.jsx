@@ -17,9 +17,12 @@ const ActionButton = (props) => {
   const handleDeleteCondidateClick = () => {
     props.handleDeleteCondidate(props.id);
   };
+  const handleMakeRequestToReviewClick = () => {
+    props.handleMakeRequestToReview(props.id);
+  };
   return (
     <div sx={styles.root}>
-      <Tooltip title="Edit" placement="top" arrow>
+      {props.status === 3 && <><Tooltip title="Edit" placement="top" arrow>
         <Button
           color="inherit"
           aria-haspopup="true"
@@ -29,16 +32,26 @@ const ActionButton = (props) => {
           <EditIcon sx={styles.actionFontSize} />
         </Button>
       </Tooltip>
-      <Tooltip title="Delete" placement="top" arrow>
+        <Tooltip title="Delete" placement="top" arrow>
+          <Button
+            color="inherit"
+            aria-haspopup="true"
+            onClick={handleDeleteCondidateClick}
+            sx={styles.ActnBtn}
+          >
+            <DeleteIcon sx={styles.deleteActionFontSize} />
+          </Button>
+        </Tooltip></>}
+      {props.status === 1 && <Tooltip title="Request To Review" placement="top" arrow>
         <Button
           color="inherit"
           aria-haspopup="true"
-          onClick={handleDeleteCondidateClick}
+          onClick={handleMakeRequestToReviewClick}
           sx={styles.ActnBtn}
         >
-          <DeleteIcon sx={styles.deleteActionFontSize} />
+          <EditIcon sx={styles.actionFontSize} />
         </Button>
-      </Tooltip>
+      </Tooltip>}
     </div>
   );
 };

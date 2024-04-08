@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTheme, Tooltip } from "@mui/material";
 import FormikTextField from "../../components/formikcomponent/TextField";
 import FormikSelectWithLabel from "../../components/formikcomponent/SelectFieldWithLabel";
@@ -25,6 +25,7 @@ const useStyles = () => {
 const CreateCondidateUI = (props) => {
     const styles = useStyles();
     const [districtOptions, setDistrictOptions] = useState([]);
+    const [stateOptions, setStateOptions] = useState([]);
     const [secondaryRoleOptions, setSecondaryRoleArray] = useState(secondaryRoleArray);
 
     const makeOptionsForDropDown = (district) => {
@@ -34,6 +35,18 @@ const CreateCondidateUI = (props) => {
         })
         setDistrictOptions(districtArray);
     }
+    useEffect(() => {
+        const getStateName = async () => {
+            let stateName = localStorage.getItem("stateName");
+            stateArray.map((item) => {
+                if (item.label == stateName) {
+                    setStateOptions([item])
+                }
+            })
+        };
+        getStateName();
+    }, []);
+
     const handleStatesDistrict = (stateObj) => {
         props.formik.setFieldValue("district", "");
         stateDistrict.states.map((item) => {
@@ -168,7 +181,7 @@ const CreateCondidateUI = (props) => {
                         name="state"
                         label="State / Team / Union Territory"
                         placeholder={""}
-                        options={stateArray}
+                        options={stateOptions}
                         onChange={handleStatesDistrict}
                         component={FormikSelectWithLabel}
                         isSearchable={false}

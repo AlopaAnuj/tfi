@@ -19,7 +19,7 @@ function AppLayout(props) {
         gridTemplateRows: "auto 1fr auto",
         gridTemplateColumns: "100%",
       }}
-    >{console.log(props.location.pathname,"props.location.pathname")}
+    >
       <Box
         sx={{
           overflowX: "auto",

@@ -12,6 +12,7 @@ import ActionButton from "./ActionButton.jsx";
 import queryString from "query-string";
 import { useHistory } from "react-router-dom";
 import defaultImage from "../../assets/images/profile.png"
+import { makeTheOptions } from "../PublicPage/CommonFunction.js";
 
 const useStyles = () => {
   const theme = useTheme();
@@ -44,6 +45,7 @@ function StateAdminDashboard() {
             item.role = item.role === 2 && "State Admin";
             item.Action = {
               id: item.id,
+              status: item.status
             };
           });
           setStateData(response.data.result);
@@ -67,6 +69,21 @@ function StateAdminDashboard() {
     history.push("./editcondidate/" + id, 0);
   };
 
+  const handleMakeRequestToReview = async (id) => {
+    let reviewResponse = await makeAuthenticatedApiCall(
+      "post",
+      `/api/userservice/requesttoapprove/${id}`
+    );
+    if (reviewResponse.status === 200) {
+      setHeaderText("Success");
+      setBodyText(reviewResponse.data.statusDescription);
+    } else {
+      setBodyText("Unable to delete the record.");
+      setHeaderText("Error");
+    }
+    setSuccessDialog(true);
+    setConfirmDialog(false);
+  }
   const tablecolumns = [
     {
       name: "photo",
@@ -163,16 +180,16 @@ function StateAdminDashboard() {
       },
     },
     {
-      name: "secondaryRole",
+      name: "status",
       options: {
         filter: false,
         sort: true,
         searchable: false,
         customHeadLabelRender: () => {
-          return <Typography sx={styles.tableLabelColor}>Secondary Role</Typography>;
+          return <Typography sx={styles.tableLabelColor}>Status</Typography>;
         },
         customBodyRender: (value) => {
-          return <Typography sx={styles.TableBodyText}>{value}</Typography>;
+          return <Typography sx={styles.TableBodyText}>{makeTheOptions(value)}</Typography>;
         },
       },
     },
@@ -185,10 +202,11 @@ function StateAdminDashboard() {
         print: false,
         customBodyRender: (value) => {
           return (
-            <ActionButton
+           <ActionButton
               id={value.id}
               handleEditCondidate={handleEditCondidate}
               handleDeleteCondidate={handleDeleteCondidate}
+              handleMakeRequestToReview={handleMakeRequestToReview}
             />
           );
         },

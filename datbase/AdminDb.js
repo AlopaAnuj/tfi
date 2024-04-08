@@ -1,3 +1,4 @@
+const UserEnum = require("../lookup/UserEnum");
 
 exports.getAllStateUsers = async (dbInstance) => {
   return dbInstance.sequelize.models.stateLogin.findAll({
@@ -13,15 +14,27 @@ exports.getAllCondidates = async (dbInstance, userId) => {
   });
 };
 
-exports.getCondidateDetails = async (dbInstance, id, userId) => {
+exports.getCondidateDetails = async (dbInstance, id, userId, transaction) => {
   return dbInstance.sequelize.models.condidates.findOne({
-    where: { id, userId }
+    where: { id, userId },
+    transaction
   });
 };
 
 exports.deleteCondidate = async (dbInstance, id, userId, transaction) => {
   return dbInstance.sequelize.models.condidates.destroy({
     where: { id, userId }, transaction
+  });
+};
+
+exports.requestToApprove = async (dbInstance, id, userId, transaction) => {
+  return dbInstance.sequelize.models.condidates.update({status: UserEnum.userStatus.requestToApprove},{
+    where: { id, userId }, transaction
+  });
+};
+exports.approveRequest = async (dbInstance, id, transaction) => {
+  return dbInstance.sequelize.models.condidates.update({status: UserEnum.userStatus.active},{
+    where: { id }, transaction
   });
 };
 

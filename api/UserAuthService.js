@@ -42,7 +42,9 @@ router.post(
                 return res.status(200).json({
                     accessToken,
                     refreshToken,
-                    role: result[0].role
+                    role: result[0].role,
+                    userId: result[0].id,
+                    userState: result[0].stateName
                 });
             }
         }
@@ -65,7 +67,6 @@ const verifyRefreshTokenDetails = (req, res, next) => {
                 .status(401)
                 .json({ statusDescription: "Token is not valid." });
         } else {
-            console.log("******", payload)
             if (req.user != undefined && req.user != null) {
                 req.user.refreshToken = payload.refreshToken;
                 req.user.iat = payload.iat;

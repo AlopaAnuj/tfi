@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { CircularProgress, Avatar, Typography, useTheme, Box } from "@mui/material";
+import { CircularProgress, Avatar, Typography, useTheme, Box, Button } from "@mui/material";
 import GridContainer from "../../components/grid/GridContainer.jsx";
 import GridItem from "../../components/grid/GridItem.jsx";
 import { Helmet } from "react-helmet";
@@ -9,6 +9,12 @@ import { AuthContext } from "../../context/AuthContext.jsx";
 import ActionButtonViewDetails from "./ActionButtonViewDetails.jsx";
 import defaultImage from "../../assets/images/profile.png"
 import CondidateDialogUI from "./CondidateDialogUI";
+import { makeTheOptions } from "../PublicPage/CommonFunction.js";
+import SuperActionButton from "./SuperActionButton.jsx";
+import SuccessDialog from "../../components/SuccessDialog.jsx";
+import queryString from "query-string";
+import { useHistory } from "react-router-dom";
+import RequestCancelationDialog from "./RequestCancelationDialog";
 const useStyles = () => {
   const theme = useTheme();
   return getDashboardStyle(theme);
@@ -22,6 +28,13 @@ function StateCondidateView(props) {
   const [stateCondidateData, setCondidateData] = useState(null);
   const [openDetailedDialog, setDialogOpen] = useState(false);
   const [dialodData, setDialogData] = useState("");
+  const [openSuccessDialog, setSuccessDialog] = useState(false);
+  const [bodyText, setBodyText] = useState("");
+  const [headerText, setHeaderText] = useState("");
+  const [confirmDialog, setConfirmDialog] = useState(false);
+  const [confirmRejectDialog, setRejectDialog] = useState(false);
+  const [id, setCondidateId] = useState("");
+  const history = useHistory();
 
   useEffect(() => {
     if (stateId) {
@@ -49,6 +62,35 @@ function StateCondidateView(props) {
     setDialogData(data)
     setDialogOpen(true)
   };
+
+  const handleApproveCondidate = (id) => {
+    setCondidateId(id);
+    setConfirmDialog(true);
+    setHeaderText("Confirm");
+    setBodyText(
+      "Are you sure you want to approve this Condidate?"
+    );
+  };
+
+  const handleRejectCondidate = (id) => {
+    setCondidateId(id);
+    setRejectDialog(true);
+  };
+  const approveCondidate = async () => {
+    let reviewResponse = await makeAuthenticatedApiCall(
+      "post",
+      `/api/superadminservice/requesttoapprove/${id}`
+    );
+    if (reviewResponse.status === 200) {
+      setHeaderText("Success");
+      setBodyText(reviewResponse.data.statusDescription);
+    } else {
+      setBodyText("Unable to delete the record.");
+      setHeaderText("Error");
+    }
+    setSuccessDialog(true);
+    setConfirmDialog(false);
+  }
 
   const tablecolumns = [
     {
@@ -146,20 +188,19 @@ function StateCondidateView(props) {
       },
     },
     {
-      name: "secondaryRole",
+      name: "status",
       options: {
         filter: false,
         sort: true,
         searchable: false,
         customHeadLabelRender: () => {
-          return <Typography sx={styles.tableLabelColor}>Secondary Role</Typography>;
+          return <Typography sx={styles.tableLabelColor}>Status</Typography>;
         },
         customBodyRender: (value) => {
-          return <Typography sx={styles.TableBodyText}>{value}</Typography>;
+          return <Typography sx={styles.TableBodyText}>{makeTheOptions(value)}</Typography>;
         },
       },
     },
-
     {
       name: "Action",
       label: <Typography sx={styles.tableLabelColor}>Action</Typography>,
@@ -169,8 +210,10 @@ function StateCondidateView(props) {
         print: false,
         customBodyRender: (value) => {
           return (
-            <ActionButtonViewDetails
+            <SuperActionButton
               data={value.data}
+              handleRejectCondidate={handleRejectCondidate}
+              handleApproveCondidate={handleApproveCondidate}
               handleViewCondidateDetails={handleViewCondidateDetails}
             />
           );
@@ -181,7 +224,39 @@ function StateCondidateView(props) {
 
   const handleCloseDialog = () => {
     setDialogOpen(false)
+    setRejectDialog(false)
   }
+  const dismissConfirmDialog = () => {
+    setConfirmDialog(false);
+    setRejectDialog(false)
+  };
+
+  const dismissSuccessDialog = () => {
+    setSuccessDialog(false);
+    let parsed = {};
+    parsed.reloadTo = "dashboard";
+    parsed.timeOut = "100";
+    const stringified = queryString.stringify(parsed);
+    history.push({
+      pathname: `./formReloader`,
+      search: "?" + stringified,
+    });
+  };
+  let confirmDialogButton = [
+    <Button secondary dialog onClick={dismissConfirmDialog}>
+      Cancel
+    </Button>,
+    <Button primary dialog onClick={approveCondidate}>
+      Approve
+    </Button>,
+  ];
+  
+  let successDialogButton = [
+    <Button primary dialog onClick={dismissSuccessDialog}>
+      Ok
+    </Button>,
+  ];
+
   return (
     <Box sx={styles.tableStyle}>
       <Helmet>
@@ -220,6 +295,23 @@ function StateCondidateView(props) {
           </GridItem>
         </GridContainer>
       )}
+      {confirmDialog && (
+        <SuccessDialog
+          successButton={confirmDialogButton}
+          HeaderText={headerText}
+          BodyText={bodyText}
+          dismiss={dismissConfirmDialog}
+        />
+      )}
+      {openSuccessDialog && (
+        <SuccessDialog
+          successButton={successDialogButton}
+          HeaderText={headerText}
+          BodyText={bodyText}
+          dismiss={dismissConfirmDialog}
+        />
+      )}
+      <RequestCancelationDialog  open={confirmRejectDialog} handleCloseDialog={handleCloseDialog}/>
       <CondidateDialogUI open={openDetailedDialog} handleCloseDialog={handleCloseDialog} dialodData={dialodData} />
     </Box>
   );

@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 
 export const AuthContext = createContext();
 // const TIMEOUT_IN_MS = 120_000; // 2 mins for testing timeout
-const TIMEOUT_IN_MS = 4_00_000; // 2 hours
+const TIMEOUT_IN_MS = 40_00_000; // 2 hours
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -28,14 +28,20 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     let accessToken = localStorage.getItem("accessToken");
-    // let refreshToken = localStorage.getItem("refreshToken");
+    let role = localStorage.getItem("role");
+    let url;
+    if(role == 1){
+      url= "/api/superadminservice/logout"
+    } else if(role == 2){
+      url= "/api/userservice/logout"
+    }
     localStorage.clear();
     setIsAuthenticated(false);
     setUser({});
     return Promise.all[
       (axios({
         method: "delete",
-        url: "/api/userservice/logout",
+        url: url,
         headers: { "x-access-token": `${accessToken}` },
       }))
     ];

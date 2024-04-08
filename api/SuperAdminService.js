@@ -9,7 +9,11 @@ const validateStateId = SchemaValidator(
   "params",
   true
 );
-
+const validateCondidateId = SchemaValidator(
+  JoiSchema.condidateId,
+  "params",
+  true
+);
 router.get(
   "/getAllStateUsers",
   wrap(async (req, res) => {
@@ -42,7 +46,6 @@ router.post(
   wrap(validateStateAdminObj),
   wrap(async (req, res) => {
     let transaction = req.transaction;
-    console.log(req.body)
     let data = {
       userName: computeHash(req.body.userName),
       password: await getHashedPassword(`${req.body.userName}@123`),
@@ -56,6 +59,63 @@ router.post(
     return res.status(200).json({
       "statusDescription": "Data saved successfully."
     });
+  })
+);
+
+router.post(
+  "/requesttoapprove/:id",
+  wrap(validateCondidateId),
+  wrap(async (req, res) => {
+    let transaction = req.transaction;
+      await AdminDb.approveRequest(req.dbInstance, req.params.id, transaction);
+      return res.status(200).json({
+          "statusDescription": "Request submitted successfully."
+      });
+  })
+);
+
+router.delete(
+  "/logout",
+  wrap(async (req, res) => {
+      try {
+          let transaction = req.transaction;
+          let userId = req.user.userId;
+          let userDetails = await AdminDb.getUserDetailsByUserId(
+              req.dbInstance,
+              userId,
+              transaction
+          );
+          if (
+              userDetails
+          ) {
+              let tokenDetails = await AdminDb.getUserIdByAccessToken(
+                  req.dbInstance,
+                  userId,
+                  transaction
+              );
+              if (tokenDetails) {
+                  await AdminDb.removeTokenDetails(
+                      req.dbInstance,
+                      userId,
+                      transaction
+                  );
+                  return res.status(200).json({
+                      statusDescription: "Logged out successfully",
+                  });
+
+              } else {
+                  return res.status(400).json({
+                      statusDescription: "User already logged out.",
+                  });
+              }
+          } else {
+              return res.status(400).json({
+                  statusDescription: "User does't exist.",
+              });
+          }
+      } catch (er) {
+          console.log(er)
+      }
   })
 );
 

@@ -34,7 +34,8 @@ router.get(
     "/getCondidateDetails/:id",
     wrap(validateCondidateId),
     wrap(async (req, res) => {
-        let result = await AdminDb.getCondidateDetails(req.dbInstance, req.params.id, req.user.userId);
+        let transaction = req.transaction;
+        let result = await AdminDb.getCondidateDetails(req.dbInstance, req.params.id, req.user.userId, transaction);
         return res.status(200).json({
             result,
         });
@@ -48,6 +49,17 @@ router.delete(
         await AdminDb.deleteCondidate(req.dbInstance, req.params.id, req.user.userId);
         return res.status(200).json({
             "statusDescription": "Condidate deleted successfully."
+        });
+    })
+);
+
+router.post(
+    "/requesttoapprove/:id",
+    wrap(validateCondidateId),
+    wrap(async (req, res) => {
+        await AdminDb.requestToApprove(req.dbInstance, req.params.id, req.user.userId);
+        return res.status(200).json({
+            "statusDescription": "Request submitted successfully."
         });
     })
 );

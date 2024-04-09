@@ -48,7 +48,7 @@ export default function Members() {
         <div style={{ marginBottom: "30px" }}>
             <Grid container spacing={2}>
                 <Grid item lg={12} md={12} xs={12} style={{ marginTop: "40px", marginBottom: "40px" }}>
-                    <Typography style={{ fontSize: "24px", color: "#551A8B", fontWeight: 600, textAlign: "center" }}>OUR MEMBERS STAs</Typography>
+                    <Typography style={{ fontSize: "24px", color: "#551A8B", fontWeight: 600, textAlign: "center" }}>OUR TEAMS MEMBERS</Typography>
                 </Grid>
             </Grid>
             <div className="publicmaincontainer">

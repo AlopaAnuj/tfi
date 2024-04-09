@@ -11,7 +11,7 @@ import {
   Box,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import webNavbarLogo from "../assets/images/tfilogo.jpg";
+import webNavbarLogo from "../assets/images/logo.jpeg";
 import NavLink from "../components/customcomponents/NavLink";
 import LogOutDialog from "../components/LogOutDialog";
 import logoutImage from "../assets/images/logout.svg";
@@ -150,7 +150,7 @@ function Navbar(props) {
                 borderBottom: "none",
               }}
             >
-              <img src={webNavbarLogo} alt="logo" width="100px" height="61px" />
+              <img src={webNavbarLogo} alt="logo" width="80px" height="80px" />
             </NavLink>
           </Typography>
             <IconButton

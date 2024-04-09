@@ -102,7 +102,7 @@ const getDashboardObject = (theme) => {
     },
     root: { flexGrow: 1 },
     logoBg: {
-      padding: "0px 20px 0px 20px",
+      padding: "5px 30px 5px 30px",
       backgroundColor: theme.custom.navbarImageBg,
     },
     logoForMobile: {

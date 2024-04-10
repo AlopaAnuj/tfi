@@ -29,7 +29,11 @@ module.exports = function (sequelize, DataTypes) {
                 allowNull: false,
             },
             aadharNumber: {
-                type: DataTypes.INTEGER(10),
+                type: DataTypes.STRING(50),
+                allowNull: false,
+            },
+            birthCertificateNumber: {
+                type: DataTypes.STRING(50),
                 allowNull: false,
             },
             address: {

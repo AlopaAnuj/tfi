@@ -8,11 +8,12 @@ import MuiThemeDataTable from "../../components/MuiThemeDataTable.jsx";
 import { getDashboardStyle } from "../../components/customstyles/DashboardStyle.jsx";
 import { AuthContext } from "../../context/AuthContext.jsx";
 import SuccessDialog from "../../components/SuccessDialog.jsx";
-import ActionButton from "./ActionButton.jsx";
+import StateAdminAction from "./StateAdminAction.jsx";
 import queryString from "query-string";
 import { useHistory } from "react-router-dom";
 import defaultImage from "../../assets/images/profile.png"
 import { makeTheOptions } from "../PublicPage/CommonFunction.js";
+import CondidateDialogUI from "../SuperAdmin/CondidateDialogUI.jsx"
 
 const useStyles = () => {
   const theme = useTheme();
@@ -22,6 +23,7 @@ const useStyles = () => {
 function StateAdminDashboard() {
   const styles = useStyles();
   const [condidateData, setStateData] = useState([]);
+  const [userData, setUserData] = useState();
   const [loading, setLoading] = useState(true);
   const { makeAuthenticatedApiCall } = useContext(AuthContext);
   const [openSuccessDialog, setSuccessDialog] = useState(false);
@@ -29,6 +31,7 @@ function StateAdminDashboard() {
   const [headerText, setHeaderText] = useState("");
   const [confirmDialog, setConfirmDialog] = useState(false);
   const [id, setCondidateId] = useState("");
+  const [openDetailedDialog, setDialogOpen] = useState(false);
 
   const history = useHistory();
 
@@ -44,8 +47,7 @@ function StateAdminDashboard() {
           response.data.result.forEach((item) => {
             item.role = item.role === 2 && "State Admin";
             item.Action = {
-              id: item.id,
-              status: item.status
+              data: item,
             };
           });
           setStateData(response.data.result);
@@ -202,17 +204,22 @@ function StateAdminDashboard() {
         print: false,
         customBodyRender: (value) => {
           return (
-           <ActionButton
-              id={value.id}
+           <StateAdminAction
+              data={value.data}
               handleEditCondidate={handleEditCondidate}
               handleDeleteCondidate={handleDeleteCondidate}
               handleMakeRequestToReview={handleMakeRequestToReview}
+              handleViewDetails={handleViewDetails}
             />
           );
         },
       },
     },
   ];
+  const handleViewDetails = (data) => {
+    setUserData(data)
+    setDialogOpen(true)
+  }
   const deleteCondidate = async () => {
     let deleteResponse = await makeAuthenticatedApiCall(
       "delete",
@@ -256,7 +263,9 @@ function StateAdminDashboard() {
       Ok
     </Button>,
   ];
-
+  const handleCloseDialog = () => {
+    setDialogOpen(false)
+  }
   return (
     <Box sx={styles.tableStyle}>
       <Helmet>
@@ -297,7 +306,7 @@ function StateAdminDashboard() {
             <CircularProgress />
           </Box>
           <Typography sx={styles.loadinText}>
-            Loading state admin details...
+            Loading state condidates details...
           </Typography>
         </Box>
       ) : (
@@ -311,10 +320,6 @@ function StateAdminDashboard() {
               hideFilterIcon={false}
               viewColumnsIcon={false}
               smallScreenTableColumnDisplayIndex={[0, 1]}
-              sortOrder={{
-                name: "appointment",
-                direction: "asc",
-              }}
             />
           </GridItem>
         </GridContainer>
@@ -335,6 +340,7 @@ function StateAdminDashboard() {
           dismiss={dismissConfirmDialog}
         />
       )}
+       <CondidateDialogUI open={openDetailedDialog} handleCloseDialog={handleCloseDialog} dialodData={userData} />
     </Box>
   );
 }

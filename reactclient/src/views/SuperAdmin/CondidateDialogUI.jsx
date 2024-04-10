@@ -40,7 +40,7 @@ export default function CondidateDialogUI(props) {
         >
             <DialogTitle style={styles.dialogHeading}>Condidate Profile</DialogTitle>
             <Divider />
-            <DialogContent >
+            {data&&<DialogContent >
             <Typography style={styles.textStyle}>Full Name: {data.fullName}</Typography>
             <Typography style={styles.textStyle}>Guardian Name: {data.guardianName}</Typography>
             <Typography style={styles.textStyle}>Contact Number: {data.contactNumber}</Typography>
@@ -60,7 +60,7 @@ export default function CondidateDialogUI(props) {
             <img style={styles.imageStyle} alt="No Images" src={data.aadhar}/><br /><br />
             <Typography style={styles.imageHeading}>Condidate Birth Certificate:</Typography>
             <img style={styles.imageStyle} alt="No Images" src={data.birthCertificate}/>
-            </DialogContent>
+            </DialogContent>}
             <Divider />
             <div style={{textAlign:"center", margin:"10px"}}>
             <Button onClick={handleClickOpen}>

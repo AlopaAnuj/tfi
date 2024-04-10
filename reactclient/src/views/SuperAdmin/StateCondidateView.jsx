@@ -234,11 +234,11 @@ function StateCondidateView(props) {
   const dismissSuccessDialog = () => {
     setSuccessDialog(false);
     let parsed = {};
-    parsed.reloadTo = "dashboard";
+    parsed.reloadTo = "condidatelist";
     parsed.timeOut = "100";
     const stringified = queryString.stringify(parsed);
     history.push({
-      pathname: `./formReloader`,
+      pathname: `../formReloader`,
       search: "?" + stringified,
     });
   };

@@ -41,6 +41,8 @@ const EditCondidateUI = (props) => {
       props.formik.setFieldValue("aadhar", data.aadhar);
       props.formik.setFieldValue("birthCertificate", data.birthCertificate);
       props.formik.setFieldValue("acceptTermAndCondition", true);
+      props.formik.setFieldValue("birthCertificateNumber", data.birthCertificateNumber, true);
+      props.formik.setFieldValue("aadharNumber", data.aadharNumber, true);
     }
   }, []);
   return <></>;

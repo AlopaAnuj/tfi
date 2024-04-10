@@ -1,21 +1,18 @@
-import React, {useState} from "react";
+import React from "react";
 import {
-    AppBar,
-    Box,
-    Toolbar,
-    Typography,
-    Button,
-    Menu,
-    MenuItem,
-    Link,
-    useTheme
-  } from "@mui/material";
+  Box,
+  Typography,
+  Button,
+  Menu,
+  MenuItem,
+  useTheme
+} from "@mui/material";
 import { ActionButtonStyle } from "../../components/customstyles/SuperAdminStyle";
 import ProfileIcon from "../../assets/images/actionsImg.png";
-import AboutIcon from "../../assets/images/about.svg";
+import ApproveIcon from "../../assets/images/approve.svg";
+import RejectIcon from "../../assets/images/reject.svg";
 import { useHistory } from "react-router-dom";
-import LogoutIcon from "../../assets/images/logout.svg";
-import UserAgreementIcon from "../../assets/images/user-agreement.svg";
+import ViewIcon from "../../assets/images/view.svg";
 
 
 const useStyles = () => {
@@ -30,10 +27,10 @@ const SuperActionButton = (props) => {
   const handleViewCondidate = () => {
     props.handleViewCondidateDetails(props.data);
   };
-  const handleApproveCondidate = () =>{
+  const handleApproveCondidate = () => {
     props.handleApproveCondidate(props.data.id);
   }
-  const handleRejectCondidate = () =>{
+  const handleRejectCondidate = () => {
     props.handleRejectCondidate(props.data.id);
   }
 
@@ -46,69 +43,62 @@ const SuperActionButton = (props) => {
 
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>
-    <Button
-      sx={{ borderRadius: "50%", minWidth: "initial", width: "40px" }}
-      aria-label="account of current user"
-      aria-controls="menu-appbar"
-      aria-haspopup="true"
-      onClick={handleOpenUserMenu}
-    >
-      <img
-        src={ProfileIcon}
-        alt="profile icon"
-        height={"24px"}
-        width={"24px"}
-      />
-    </Button>
-    <Menu
-      sx={{ mt: "40px", ml: "15px" }}
-      id="menu-appbar"
-      anchorEl={anchorElUser}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "center",
-      }}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={Boolean(anchorElUser)}
-      onClose={handleCloseUserMenu}
-    >
-      <UserActionItem
-        icon={AboutIcon}
-        text="View Details"
-        onClick={() => {
-          handleViewCondidate()
-          handleCloseUserMenu();
+      <Button
+        sx={{ borderRadius: "50%", minWidth: "initial", width: "40px" }}
+        aria-label="account of current user"
+        aria-controls="menu-appbar"
+        aria-haspopup="true"
+        onClick={handleOpenUserMenu}
+      >
+        <img
+          src={ProfileIcon}
+          alt="profile icon"
+          height={"24px"}
+          width={"24px"}
+        />
+      </Button>
+      <Menu
+        sx={{ mt: "40px", ml: "15px" }}
+        id="menu-appbar"
+        anchorEl={anchorElUser}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
         }}
-      />
-      {props.data.status === 2&&<UserActionItem
-        icon={UserAgreementIcon}
-        text="Approve"
-        onClick={() => {
-          handleApproveCondidate()
-          handleCloseUserMenu();
+        keepMounted
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
         }}
-      />}
-         {props.data.status === 2&&<UserActionItem
-        icon={UserAgreementIcon}
-        text="Reject"
-        onClick={() => {
-          handleRejectCondidate()
-          handleCloseUserMenu();
-        }}
-      />}
-      {/* <UserActionItem
-        icon={LogoutIcon}
-        text="Logout"
-        onClick={() => {
-          handleCloseUserMenu();
-        }}
-      /> */}
-    </Menu>
-  </Box>
+        open={Boolean(anchorElUser)}
+        onClose={handleCloseUserMenu}
+      >
+        <UserActionItem
+          icon={ViewIcon}
+          text="View Details"
+          onClick={() => {
+            handleViewCondidate()
+            handleCloseUserMenu();
+          }}
+        />
+        {props.data.status === 2 && <UserActionItem
+          icon={ApproveIcon}
+          text="Approve"
+          onClick={() => {
+            handleApproveCondidate()
+            handleCloseUserMenu();
+          }}
+        />}
+        {props.data.status === 2 && <UserActionItem
+          icon={RejectIcon}
+          text="Reject"
+          onClick={() => {
+            handleRejectCondidate()
+            handleCloseUserMenu();
+          }}
+        />}
+      </Menu>
+    </Box>
   );
 };
 

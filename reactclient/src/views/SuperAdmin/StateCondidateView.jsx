@@ -79,7 +79,7 @@ function StateCondidateView(props) {
   const approveCondidate = async () => {
     let reviewResponse = await makeAuthenticatedApiCall(
       "post",
-      `/api/superadminservice/requesttoapprove/${id}`
+      `/api/superadminservice/requestapproved/${id}`
     );
     if (reviewResponse.status === 200) {
       setHeaderText("Success");
@@ -311,7 +311,7 @@ function StateCondidateView(props) {
           dismiss={dismissConfirmDialog}
         />
       )}
-      <RequestCancelationDialog  open={confirmRejectDialog} handleCloseDialog={handleCloseDialog}/>
+      <RequestCancelationDialog  open={confirmRejectDialog} handleCloseDialog={handleCloseDialog} id={id}/>
       <CondidateDialogUI open={openDetailedDialog} handleCloseDialog={handleCloseDialog} dialodData={dialodData} />
     </Box>
   );

@@ -33,8 +33,14 @@ exports.requestToApprove = async (dbInstance, id, userId, transaction) => {
   });
 };
 exports.approveRequest = async (dbInstance, id, transaction) => {
-  return dbInstance.sequelize.models.condidates.update({status: UserEnum.userStatus.active},{
+  return dbInstance.sequelize.models.condidates.update({status: UserEnum.userStatus.active, reason: ""},{
     where: { id }, transaction
+  });
+};
+
+exports.requestRejected = async (dbInstance, data, transaction) => {
+  return dbInstance.sequelize.models.condidates.update({status: UserEnum.userStatus.requestToChange, reason: data.reason},{
+    where: { id: data.id }, transaction
   });
 };
 

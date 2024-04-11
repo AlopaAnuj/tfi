@@ -84,6 +84,10 @@ module.exports = function (sequelize, DataTypes) {
                 type: DataTypes.STRING(100),
                 allowNull: false,
             },
+            reason: {
+                type: DataTypes.STRING(100),
+                allowNull: true,
+            },
             createddatetime: {
                 type: DataTypes.DATE,
                 allowNull: false,

@@ -11,12 +11,12 @@ const useStyles = () => {
             color: "#fff"
         },
         textStyle: {fontSize:"16px", margin:"5px", fontWeight:500},
+        errorTextStyle: {fontSize:"16px", margin:"5px", fontWeight:600, color: "red"},
         imageStyle: {height: "300px", width: "500px"},
         imageHeading: {fontSize:"20px", margin:"5px", fontWeight:600},
         dialogHeading: {fontSize:"24px", textAlign:"center", margin:"5px", fontWeight:600},
     };
 };
-
 
 
 export default function CondidateDialogUI(props) {
@@ -41,6 +41,7 @@ export default function CondidateDialogUI(props) {
             <DialogTitle style={styles.dialogHeading}>Condidate Profile</DialogTitle>
             <Divider />
             {data&&<DialogContent >
+            {data.status === 3&&<Typography style={styles.errorTextStyle}>Reason of Rejection: {data.reason}</Typography>}
             <Typography style={styles.textStyle}>Full Name: {data.fullName}</Typography>
             <Typography style={styles.textStyle}>Guardian Name: {data.guardianName}</Typography>
             <Typography style={styles.textStyle}>Contact Number: {data.contactNumber}</Typography>

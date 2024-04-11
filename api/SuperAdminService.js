@@ -63,11 +63,33 @@ router.post(
 );
 
 router.post(
-  "/requesttoapprove/:id",
+  "/requestapproved/:id",
   wrap(validateCondidateId),
   wrap(async (req, res) => {
     let transaction = req.transaction;
       await AdminDb.approveRequest(req.dbInstance, req.params.id, transaction);
+      return res.status(200).json({
+          "statusDescription": "Request submitted successfully."
+      });
+  })
+);
+
+const validateRequestRejected = SchemaValidator(
+  JoiSchema.validateRequestRejected,
+  "body",
+  true
+);
+
+router.post(
+  "/requestrejected",
+  wrap(validateRequestRejected),
+  wrap(async (req, res) => {
+    let transaction = req.transaction;
+    let data = {
+      id: req.body.id,
+      reason: req.body.reason
+    }
+      await AdminDb.requestRejected(req.dbInstance, data, transaction);
       return res.status(200).json({
           "statusDescription": "Request submitted successfully."
       });

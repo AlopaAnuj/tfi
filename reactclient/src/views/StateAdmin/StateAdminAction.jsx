@@ -67,7 +67,7 @@ const StateAdminAction = (props) => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
             >
-                {props.data.status === 1 && <UserActionItem
+                {props.data.status === 1 || props.data.status === 3 && <UserActionItem
                     icon={EditIcon}
                     text="Edit"
                     onClick={() => {
@@ -83,7 +83,7 @@ const StateAdminAction = (props) => {
                         handleCloseUserMenu();
                     }}
                 />}
-                {props.data.status === 1 && <UserActionItem
+                {props.data.status === 1 || props.data.status === 3 && <UserActionItem
                     icon={UserAgreementIcon}
                     text="Make Request to Approve"
                     onClick={() => {

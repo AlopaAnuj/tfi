@@ -51,3 +51,5 @@ CREATE TABLE tokenDetails (
     primary key(userId),
     FOREIGN KEY (`userId`) REFERENCES `stateLogin` (`id`)
 )
+
+alter table condidates add column reason varchar(100) DEFAULT null;

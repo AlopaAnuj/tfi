@@ -43,3 +43,8 @@ exports.validateStateAdmin = Joi.object({
 exports.validateRefreshToken = Joi.object({
   refreshToken: Joi.string().required()
 });
+
+exports.validateRequestRejected = Joi.object({
+  id: Joi.number().required(),
+  reason: Joi.string().required()
+});

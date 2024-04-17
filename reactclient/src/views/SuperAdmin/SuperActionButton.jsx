@@ -5,24 +5,14 @@ import {
   Button,
   Menu,
   MenuItem,
-  useTheme
 } from "@mui/material";
-import { ActionButtonStyle } from "../../components/customstyles/SuperAdminStyle";
 import ProfileIcon from "../../assets/images/actionsImg.png";
 import ApproveIcon from "../../assets/images/approve.svg";
 import RejectIcon from "../../assets/images/reject.svg";
-import { useHistory } from "react-router-dom";
 import ViewIcon from "../../assets/images/view.svg";
 
-
-const useStyles = () => {
-  const theme = useTheme();
-  return ActionButtonStyle(theme);
-};
 const SuperActionButton = (props) => {
-  const styles = useStyles();
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const history = useHistory();
 
   const handleViewCondidate = () => {
     props.handleViewCondidateDetails(props.data);

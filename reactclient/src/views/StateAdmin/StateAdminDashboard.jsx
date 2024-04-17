@@ -319,7 +319,7 @@ function StateAdminDashboard() {
               hideSearchIcon={false}
               hideFilterIcon={false}
               viewColumnsIcon={false}
-              smallScreenTableColumnDisplayIndex={[0, 1]}
+              smallScreenTableColumnDisplayIndex={[1, 5, 6]}
             />
           </GridItem>
         </GridContainer>

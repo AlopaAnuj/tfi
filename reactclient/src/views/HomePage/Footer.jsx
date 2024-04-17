@@ -46,7 +46,7 @@ export default function Footer() {
           <Typography>Copyright @ TFI & Movers All Rights Reserved.</Typography>
         </Grid>
         <Grid item xl={3} lg={3} md={12} xs={12}>
-          <Typography>support@tfi.com   +91 9878345654</Typography>
+          <Typography>membership@officialtfi.com</Typography>
         </Grid>
       </Grid>
     </div>

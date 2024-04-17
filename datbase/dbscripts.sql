@@ -53,3 +53,7 @@ CREATE TABLE tokenDetails (
 )
 
 alter table condidates add column reason varchar(100) DEFAULT null;
+
+alter table condidates MODIFY column aadharNumber varchar(100);
+
+alter table condidates MODIFY column birthCertificateNumber varchar(100);

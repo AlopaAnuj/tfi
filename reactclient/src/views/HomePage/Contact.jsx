@@ -68,9 +68,9 @@ const Contact = () => {
                         <div style={styles.titleContainer} >
                             <Card style={styles.aboutCardStyle}>
                                 <Typography style={{ fontSize: "24px", textAlign: "center", fontWeight: 700, color: "#551A8B" }}>Have questions Contact us on following.</Typography>
-                                <Typography style={{ fontSize: "16px", textAlign: "justify", fontWeight: 500, color: "#551A8B" }}>support@tfi.com</Typography>
-                                <Typography style={{ fontSize: "16px", textAlign: "justify", fontWeight: 500, color: "#551A8B" }}>+91 9876542344</Typography>
-                                <Typography style={{ fontSize: "16px", textAlign: "justify", fontWeight: 500, color: "#551A8B" }}>+91 9876542344</Typography>
+                                <Typography style={{ fontSize: "16px", textAlign: "justify", fontWeight: 500, color: "#551A8B" }}>membership@officialtfi.com</Typography>
+                                <Typography style={{ fontSize: "16px", textAlign: "justify", fontWeight: 500, color: "#551A8B" }}>+91 9********4</Typography>
+                                <Typography style={{ fontSize: "16px", textAlign: "justify", fontWeight: 500, color: "#551A8B" }}>+91 8********3</Typography>
 
                             </Card>
                         </div>

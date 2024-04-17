@@ -6,7 +6,6 @@ import { Helmet } from "react-helmet";
 import MuiThemeDataTable from "../../components/MuiThemeDataTable.jsx";
 import { getDashboardStyle } from "../../components/customstyles/DashboardStyle.jsx";
 import { AuthContext } from "../../context/AuthContext.jsx";
-import ActionButtonViewDetails from "./ActionButtonViewDetails.jsx";
 import defaultImage from "../../assets/images/profile.png"
 import CondidateDialogUI from "./CondidateDialogUI";
 import { makeTheOptions } from "../PublicPage/CommonFunction.js";
@@ -95,7 +94,7 @@ function StateCondidateView(props) {
   const tablecolumns = [
     {
       name: "photo",
-      label: "Photo",
+      label: <Typography sx={styles.tableLabelColor}>Photo</Typography>,
       options: {
         filter: false,
         sort: false,
@@ -109,15 +108,11 @@ function StateCondidateView(props) {
     },
     {
       name: "fullName",
+      label: <Typography sx={styles.tableLabelColor}>Full Name</Typography>,
       options: {
         filter: false,
         sort: true,
         searchable: false,
-        customHeadLabelRender: () => {
-          return (
-            <Typography sx={styles.tableLabelColor}>Full Name</Typography>
-          );
-        },
         customBodyRender: (value) => {
           return (
             <>
@@ -129,15 +124,11 @@ function StateCondidateView(props) {
     },
     {
       name: "contactNumber",
+      label: <Typography sx={styles.tableLabelColor}>Contact Number</Typography>,
       options: {
         filter: false,
         sort: true,
         searchable: false,
-        customHeadLabelRender: () => {
-          return (
-            <Typography sx={styles.tableLabelColor}>Contact Number</Typography>
-          );
-        },
         customBodyRender: (value) => {
           return (
             <>
@@ -153,11 +144,7 @@ function StateCondidateView(props) {
         filter: false,
         sort: true,
         searchable: false,
-        customHeadLabelRender: () => {
-          return (
-            <Typography sx={styles.tableLabelColor}>Gender</Typography>
-          );
-        },
+        label: <Typography sx={styles.tableLabelColor}>Gender</Typography>,
         customBodyRender: (value) => {
           return (
             <>
@@ -173,11 +160,7 @@ function StateCondidateView(props) {
         filter: false,
         sort: true,
         searchable: false,
-        customHeadLabelRender: () => {
-          return (
-            <Typography sx={styles.tableLabelColor}>Primary Role</Typography>
-          );
-        },
+        label: <Typography sx={styles.tableLabelColor}>Primary Role</Typography>,
         customBodyRender: (value) => {
           return (
             <>
@@ -286,7 +269,7 @@ function StateCondidateView(props) {
               hideSearchIcon={false}
               hideFilterIcon={false}
               viewColumnsIcon={false}
-              smallScreenTableColumnDisplayIndex={[1, 4, 6]}
+              smallScreenTableColumnDisplayIndex={[1, 5, 6]}
               sortOrder={{
                 name: "appointment",
                 direction: "asc",

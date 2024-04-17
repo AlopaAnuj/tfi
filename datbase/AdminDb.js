@@ -10,7 +10,8 @@ exports.getAllStateUsers = async (dbInstance) => {
 
 exports.getAllCondidates = async (dbInstance, userId) => {
   return dbInstance.sequelize.models.condidates.findAll({
-    where: { userId }
+    where: { userId },
+    order: [["modifieddatetime", "DESC"]],
   });
 };
 

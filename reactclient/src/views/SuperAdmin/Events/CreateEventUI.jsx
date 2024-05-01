@@ -5,7 +5,7 @@ import FormikSelectWithLabel from "../../../components/formikcomponent/SelectFie
 import GridContainer from "../../../components/grid/GridContainer.jsx";
 import GridItem from "../../../components/grid/GridItem.jsx";
 import { connect, Field } from "formik";
-import { stateArray, eventType } from "../../StateAdmin/options.js";
+import { eventType } from "../../StateAdmin/options.js";
 import { CreateCadidateUI } from "../../../components/customstyles/SuperAdminStyle.jsx";
 import FormikDateField from "../../../components/formikcomponent/FormikDateField";
 import { InputAdornment } from '@mui/material';
@@ -16,7 +16,7 @@ const useStyles = () => {
     return CreateCadidateUI(theme);
 };
 
-const CreateEventUI = (props) => {
+const CreateEventUI = () => {
     const styles = useStyles();
     return (
         <>
@@ -119,6 +119,16 @@ const CreateEventUI = (props) => {
                         fullWidth
                         name="email"
                         placeholder="Email Id"
+                    />
+                </GridItem>
+                <GridItem lg={6} md={6} sm={12} xs={12} sx={styles.formikFieldStyle}>
+                    <Field
+                        component={FormikTextField}
+                        variant="filled"
+                        label="Redirect URL"
+                        fullWidth
+                        name="redirectURL"
+                        placeholder="Redirect URL"
                     />
                 </GridItem>
             </GridContainer>

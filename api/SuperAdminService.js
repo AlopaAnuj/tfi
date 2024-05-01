@@ -152,7 +152,7 @@ router.post(
   wrap(validateEventData),
   wrap(async (req, res) => {
     let transaction = req.transaction;
-    const {eventName, eventType, eventDate, venue, organizer, contactNumber, email} = req.body;
+    const {eventName, eventType, eventDate, venue, organizer, contactNumber, email, redirectURL} = req.body;
     let eventData = {
       eventName,
       eventType,
@@ -160,7 +160,8 @@ router.post(
       venue,
       organizer,
       contactNumber,
-      email
+      email,
+      redirectURL
     }
     if(req.body.id){
       eventData.id = req.body.id;
@@ -182,6 +183,16 @@ router.get(
   })
 );
 
+router.delete(
+  "/deleteEventDetails/:id",
+  wrap(validateCondidateId),
+  wrap(async (req, res) => {
+     await AdminDb.deleteEventById(req.dbInstance, req.params.id);
+    return res.status(200).json({
+      statusDescription: "Event has been deleted successfully."
+    });
+  })
+);
 router.get(
   "/getEventDetails/:id",
   wrap(validateCondidateId),

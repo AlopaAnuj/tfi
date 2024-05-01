@@ -14,7 +14,7 @@ const EditEventUI = (props) => {
       props.formik.setFieldValue("organizer", data.organizer, true);
       props.formik.setFieldValue("contactNumber", data.contactNumber, true);
       props.formik.setFieldValue("email", data.email, true);
-
+      props.formik.setFieldValue("redirectURL", data.redirectURL, true);
     }
   }, []);
   return <></>;

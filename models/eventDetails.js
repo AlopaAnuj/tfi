@@ -36,6 +36,10 @@ module.exports = function (sequelize, DataTypes) {
                 type: DataTypes.STRING(100),
                 allowNull: false,
             },
+            redirectURL: {
+                type: DataTypes.STRING(100),
+                allowNull: false,
+            },
             createddatetime: {
                 type: DataTypes.DATE,
                 allowNull: false,

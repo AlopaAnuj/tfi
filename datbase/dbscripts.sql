@@ -71,3 +71,7 @@ CREATE TABLE eventDetails (
     createddatetime timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modifieddatetime timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )
+
+
+alter table eventDetails add column redirectURL varchar(100) NOT NULL;
+

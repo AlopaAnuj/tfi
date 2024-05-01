@@ -7,18 +7,14 @@ import {
   MenuItem,
 } from "@mui/material";
 import ProfileIcon from "../../../assets/images/actionsImg.png";
-import ApproveIcon from "../../../assets/images/approve.svg";
-import RejectIcon from "../../../assets/images/reject.svg";
 import EditIcon from "../../../assets/images/edit.svg";
 import DeleteIcon from "../../../assets/images/delete.svg";
-
-import ViewIcon from "../../../assets/images/view.svg";
 
 const EventActionButton = (props) => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const handleViewCondidate = () => {
-    props.handleViewCondidateDetails(props.data);
+  const handleDeleteEvent = () => {
+    props.handleDeleteEvent(props.id);
   };
   const handleEditEventDetails = () => {
     props.handleEditEvent(props.id);
@@ -75,7 +71,7 @@ const EventActionButton = (props) => {
           icon={DeleteIcon}
           text="Delete Event"
           onClick={() => {
-            handleViewCondidate()
+            handleDeleteEvent()
             handleCloseUserMenu();
           }}
         />

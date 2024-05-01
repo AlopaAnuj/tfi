@@ -58,4 +58,5 @@ exports.validateEventData =  Joi.object({
   organizer: Joi.string().max(100).required(),
   contactNumber: Joi.string().trim().regex(/^\d+$/).length(10).required(),
   email: Joi.string().email().required(),
+  redirectURL: Joi.string().required().max(100),
 });

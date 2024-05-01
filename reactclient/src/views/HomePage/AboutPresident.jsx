@@ -62,8 +62,10 @@ export default function Aboutpresident() {
                             <div style={styles.titleContainer}>
                                 <div style={{ margin: "50px" }}>
                                     <Typography style={styles.textStyle}>DR. ISHARI K. GANESH</Typography>
-                                    <Typography style={styles.textStyle}>President</Typography>
-                                    <Typography style={styles.textStyle}>"He serves the Academy 15 years. Taekwondo was included as a discipline for the first at the 1985 National Games in New Delhi. The TFI organized a special taekwondo demonstration by Korean taekwondokas for then Prime Minister Rajiv Gandhi at the Prime Minister's residence on 17 March 1986. Gandhi was impressed by the demonstration and agreed to "extend all possible help" to the TFI. The Union Ministry of Youth Affairs and Sports officially recognized the TFI as the national governing body for taekwondo in 1988"</Typography>
+                                    <Typography style={styles.textStyle}>"As President, I'm honored to lead our community in this exciting journey. Taekwondo is not just a sport, it's a pathway to self-improvement and empowerment. Together, let's foster a culture of discipline, respect, and excellence. Thank you for being part of our vision for a stronger Taekwondo community in India."</Typography>
+                                    <br />
+                                    <Typography style={styles.textStyle}>Worm regards,</Typography>
+                                    <Typography style={styles.textStyle}>President, TFI</Typography>
                                 </div>
                             </div>
                         </Grid>
@@ -79,8 +81,10 @@ export default function Aboutpresident() {
                             <div style={styles.titleContainer}>
                                 <div style={{ margin: "50px" }}>
                                     <Typography style={styles.textStyle}>ADV. R.D. MANGUESHKAR</Typography>
-                                    <Typography style={styles.textStyle}>Secretary General</Typography>
-                                    <Typography style={styles.textStyle}>"He serves the Academy 15 years. Taekwondo was included as a discipline for the first at the 1985 National Games in New Delhi. The TFI organized a special taekwondo demonstration by Korean taekwondokas for then Prime Minister Rajiv Gandhi at the Prime Minister's residence on 17 March 1986. Gandhi was impressed by the demonstration and agreed to "extend all possible help" to the TFI. The Union Ministry of Youth Affairs and Sports officially recognized the TFI as the national governing body for taekwondo in 1988"</Typography>
+                                    <Typography style={styles.textStyle}>"As Secretary, I'm delighted to welcome you to our growing family. Taekwondo is a journey that transcends borders, uniting us in our pursuit of greatness. Let's work together to create opportunities for athletes, coaches, and enthusiasts alike. Thank you for your commitment to Taekwondo and to TFI."</Typography>
+                                    <br />
+                                    <Typography style={styles.textStyle}>Worm regards,</Typography>
+                                    <Typography style={styles.textStyle}>Secretary General, TFI</Typography>
                                 </div>
                             </div>
                         </Grid>

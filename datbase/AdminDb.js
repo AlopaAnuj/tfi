@@ -111,3 +111,8 @@ exports.getEventById = async (dbInstance, id) => {
   return dbInstance.sequelize.models.eventDetails.findOne({ where: {id}
   });
 };
+
+exports.deleteEventById = async (dbInstance, id) => {
+  return dbInstance.sequelize.models.eventDetails.destroy({ where: {id}
+  });
+};

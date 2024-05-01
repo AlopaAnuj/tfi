@@ -7,6 +7,7 @@ const SECRET_KEY = "meQ84_Dir3";
 const SchemaValidator = require("../utils/SchemaValidation");
 const JoiSchema = require("./JoiSchema.js");
 const uuidV4 = require("uuid").v4;
+const AdminDb = require("../datbase/AdminDb.js");
 
 const generateJwtToken = (tokenData, expiryTime) => {
     return jwt.sign(tokenData, SECRET_KEY, { expiresIn: expiryTime });
@@ -125,5 +126,15 @@ router.post(
     })
 
 );
+
+router.get(
+    "/getAllEvents",
+    wrap(async (req, res) => {
+      let result = await AdminDb.getAllEvents(req.dbInstance);
+      return res.status(200).json({
+        result,
+      });
+    })
+  );
 
 module.exports = router;

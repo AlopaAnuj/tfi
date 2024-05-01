@@ -11,6 +11,8 @@ import EventActionButton from "./EventActionButton";
 import { useHistory } from "react-router-dom";
 import dayjs from "dayjs";
 import { getEventName } from "../../StateAdmin/options.js";
+import queryString from "query-string";
+import SuccessDialog from "../../../components/SuccessDialog.jsx";
 
 const useStyles = () => {
   const theme = useTheme();
@@ -22,6 +24,11 @@ function EventDashboard() {
   const [configurationData, setStateData] = useState([]);
   const [loading, setLoading] = useState(true);
   const { makeAuthenticatedApiCall } = useContext(AuthContext);
+  const [Id, setEventId] = useState([]);
+  const [openSuccessDialog, setSuccessDialog] = useState(false);
+  const [bodyText, setBodyText] = useState("");
+  const [headerText, setHeaderText] = useState("");
+  const [confirmDialog, setConfirmDialog] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
@@ -50,6 +57,31 @@ function EventDashboard() {
   const handleEditEvent = (Id) => {
     history.push("./editevent/" + Id, 0);
   };
+
+  const dismissConfirmDialog = () => {
+    setConfirmDialog(false);
+  };
+
+  const dismissSuccessDialog = () => {
+    setSuccessDialog(false);
+    let parsed = {};
+    parsed.reloadTo = "events";
+    parsed.timeOut = "100";
+    const stringified = queryString.stringify(parsed);
+    history.push({
+      pathname: `./formReloader`,
+      search: "?" + stringified,
+    });
+  };
+
+  const handleDeleteEvent = (id) => {
+    setEventId(id);
+    setConfirmDialog(true);
+    setHeaderText("Confirm");
+    setBodyText(
+      "Are you sure you want to delete this Event?"
+    );
+  }
   const tablecolumns = [
     {
       name: "eventName",
@@ -173,6 +205,8 @@ function EventDashboard() {
             <EventActionButton
               id={value.id}
               handleEditEvent={handleEditEvent}
+              handleDeleteEvent={handleDeleteEvent}
+
             />
           );
         },
@@ -180,6 +214,34 @@ function EventDashboard() {
     },
   ];
 
+  const deleteEventData = async () => {
+    let deleteResponse = await makeAuthenticatedApiCall(
+      "delete",
+      `/api/superadminservice/deleteEventDetails/${Id}`
+    );
+    if (deleteResponse.status === 200) {
+      setHeaderText("Success");
+      setBodyText(deleteResponse.data.statusDescription);
+    } else {
+      setBodyText("Unable to delete the record.");
+      setHeaderText("Error");
+    }
+    setSuccessDialog(true);
+    setConfirmDialog(false);
+  };
+  let confirmDialogButton = [
+    <Button secondary dialog onClick={dismissConfirmDialog}>
+      Cancel
+    </Button>,
+    <Button primary dialog onClick={deleteEventData}>
+      Delete
+    </Button>,
+  ];
+  let successDialogButton = [
+    <Button primary dialog onClick={dismissSuccessDialog}>
+      Ok
+    </Button>,
+  ];
   return (
     <Box sx={styles.tableStyle}>
       <Helmet>
@@ -241,6 +303,22 @@ function EventDashboard() {
             />
           </GridItem>
         </GridContainer>
+      )}
+            {confirmDialog && (
+        <SuccessDialog
+          successButton={confirmDialogButton}
+          HeaderText={headerText}
+          BodyText={bodyText}
+          dismiss={dismissConfirmDialog}
+        />
+      )}
+      {openSuccessDialog && (
+        <SuccessDialog
+          successButton={successDialogButton}
+          HeaderText={headerText}
+          BodyText={bodyText}
+          dismiss={dismissConfirmDialog}
+        />
       )}
     </Box>
   );

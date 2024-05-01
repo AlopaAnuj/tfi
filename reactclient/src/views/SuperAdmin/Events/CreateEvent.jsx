@@ -51,7 +51,7 @@ const useStyles = () => {
 function CreateEvent(props) {
     const styles = useStyles();
     const history = useHistory();
-    const initialValues = { eventName: "", eventType: "", eventDate: "", venue: "", organizer: "", contactNumber: "", email: "" };
+    const initialValues = { eventName: "", eventType: "", eventDate: "", venue: "", organizer: "", contactNumber: "", email: "", redirectURL:"" };
 
     const requiredMessage = "This field is required.";
     const { makeAuthenticatedApiCall } = useContext(AuthContext);
@@ -71,6 +71,7 @@ function CreateEvent(props) {
         organizer: string().required(requiredMessage),
         contactNumber: string().max(10).min(10).required(requiredMessage),
         email: string().trim().max(100, "Email length too long.").required("This Field is required.").email("Please enter a valid email id."),
+        redirectURL: string().required(requiredMessage),
     });
 
     const handleSubmit = async (values) => {
@@ -82,7 +83,8 @@ function CreateEvent(props) {
             venue: values.venue,
             organizer: values.organizer,
             contactNumber: values.contactNumber,
-            email: values.email
+            email: values.email,
+            redirectURL: values.redirectURL
         }
         if (id) {
             dataToSend.id = id;

@@ -47,29 +47,29 @@ const LogoutButton = ({ setShowLogoutDialog }) => {
   );
 };
 
-const LoginButton = () => {
-  const history = useHistory();
-  const styles = useStyles();
-  return (
-    <Box
-      onClick={() => {
-        history.push("../login");
-      }}
-      sx={styles.navbarLogoutStyle}
-    >
-      <img
-        src={logoutImage}
-        style={{
-          height: "16px",
-          width: "22px",
-          marginRight: "6px",
-        }}
-        alt="logout"
-      />
-      Login
-    </Box>
-  );
-};
+// const LoginButton = () => {
+//   const history = useHistory();
+//   const styles = useStyles();
+//   return (
+//     <Box
+//       onClick={() => {
+//         history.push("../login");
+//       }}
+//       sx={styles.navbarLogoutStyle}
+//     >
+//       <img
+//         src={logoutImage}
+//         style={{
+//           height: "16px",
+//           width: "22px",
+//           marginRight: "6px",
+//         }}
+//         alt="logout"
+//       />
+//       Login
+//     </Box>
+//   );
+// };
 
 function Navbar(props) {
   const styles = useStyles();
@@ -187,6 +187,7 @@ function Navbar(props) {
           <Box
             sx={{
               width: "100%",
+              float:"right",
               textDecoration: "none",
               display: { xs: "none", sm: "block" },
             }}

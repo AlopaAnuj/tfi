@@ -60,7 +60,17 @@ const primaryRoleArray = [
   { "label": "Official", "value": "Official" }
 ]
 const userRole = [{ "label": "State Admin", "value": 2}]
+const eventType = [{ "label": "Education", "value": 1},{ "label": "Competition", "value": 2}, { "label": "Seminar", "value": 3}]
 
+exports.getEventName = (eventData, isObject) => {
+  let selectedEvent;
+  eventType.forEach((item) => {
+    if (item.value == eventData) {
+      selectedEvent = isObject ? item : item.label;
+    }
+  });
+  return selectedEvent;
+};
 exports.secondaryRoleArray = [
   { "label": "Athlete", "value": "Athlete" },
   { "label": "Coach", "value": "Coach" },
@@ -137,3 +147,4 @@ exports.userRole = userRole;
 exports.genderArray = genderArray;
 exports.stateArray = stateArray;
 exports.primaryRoleArray = primaryRoleArray;
+exports.eventType = eventType;

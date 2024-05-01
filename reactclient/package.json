@@ -20,6 +20,7 @@
     "axios": "^1.6.5",
     "buffer": "^6.0.3",
     "classnames": "^2.3.2",
+    "dayjs": "^1.11.11",
     "formik": "^2.4.5",
     "mui-datatables": "^4.3.0",
     "query-string": "^8.1.0",

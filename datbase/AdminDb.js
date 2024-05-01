@@ -95,3 +95,19 @@ exports.removeTokenDetails = async function (
   });
   return result;
 };
+
+exports.saveEvent = async (dbInstance, eventData, transaction) => {
+  return dbInstance.sequelize.models.eventDetails.upsert(eventData, {
+    transaction
+  });
+};
+
+exports.getAllEvents = async (dbInstance) => {
+  return dbInstance.sequelize.models.eventDetails.findAll({
+  });
+};
+
+exports.getEventById = async (dbInstance, id) => {
+  return dbInstance.sequelize.models.eventDetails.findOne({ where: {id}
+  });
+};

@@ -57,3 +57,17 @@ alter table condidates add column reason varchar(100) DEFAULT null;
 alter table condidates MODIFY column aadharNumber varchar(100);
 
 alter table condidates MODIFY column birthCertificateNumber varchar(100);
+
+
+CREATE TABLE eventDetails (
+    id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    eventName VARCHAR(100) NOT NULL,
+    eventType VARCHAR(100) NOT NULL,
+    eventDate VARCHAR(100) NOT NULL,
+    venue VARCHAR(100) NOT NULL,
+    organizer VARCHAR(100) NOT NULL,
+    contactNumber VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    createddatetime timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modifieddatetime timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)

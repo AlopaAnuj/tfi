@@ -48,3 +48,14 @@ exports.validateRequestRejected = Joi.object({
   id: Joi.number().required(),
   reason: Joi.string().required()
 });
+
+exports.validateEventData =  Joi.object({
+  id: Joi.number().optional(),
+  eventName: Joi.string().required().max(100),
+  eventType: Joi.number().required().max(10),
+  eventDate: Joi.string().required(),
+  venue: Joi.string().max(100).required(),
+  organizer: Joi.string().max(100).required(),
+  contactNumber: Joi.string().trim().regex(/^\d+$/).length(10).required(),
+  email: Joi.string().email().required(),
+});

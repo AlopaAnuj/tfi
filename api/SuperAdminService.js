@@ -141,4 +141,56 @@ router.delete(
   })
 );
 
+const validateEventData = SchemaValidator(
+  JoiSchema.validateEventData,
+  "body",
+  true
+);
+
+router.post(
+  "/createEvent",
+  wrap(validateEventData),
+  wrap(async (req, res) => {
+    let transaction = req.transaction;
+    const {eventName, eventType, eventDate, venue, organizer, contactNumber, email} = req.body;
+    let eventData = {
+      eventName,
+      eventType,
+      eventDate,
+      venue,
+      organizer,
+      contactNumber,
+      email
+    }
+    if(req.body.id){
+      eventData.id = req.body.id;
+    }
+      await AdminDb.saveEvent(req.dbInstance, eventData, transaction);
+      return res.status(200).json({
+          "statusDescription": "Event Data saved successfully."
+      });
+  })
+);
+
+router.get(
+  "/getAllEvents",
+  wrap(async (req, res) => {
+    let result = await AdminDb.getAllEvents(req.dbInstance);
+    return res.status(200).json({
+      result,
+    });
+  })
+);
+
+router.get(
+  "/getEventDetails/:id",
+  wrap(validateCondidateId),
+  wrap(async (req, res) => {
+    let result = await AdminDb.getEventById(req.dbInstance, req.params.id);
+    return res.status(200).json({
+      result,
+    });
+  })
+);
+
 module.exports = router;

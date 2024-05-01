@@ -9,6 +9,8 @@ import StateCondidateView from "./StateCondidateView";
 import CreateStateAdmin from "./CreateStateAdmin";
 import { getDashboardStyle } from "../../components/customstyles/DashboardStyle";
 import dashboard from "../../assets/dashboard.png";
+import EventDashboard from "./Events/EventDashboard";
+import CreateEvent from "./Events/CreateEvent";
 
 const useStyles = () => {
   const theme = useTheme();
@@ -26,13 +28,19 @@ function SuperAdmin() {
       title: "Dashboard",
       style: styles.navBarIconStyle,
     },
+    {
+      to: `${match.url}/events`,
+      image: dashboard,
+      title: "Events",
+      style: styles.navBarIconStyle,
+    },
   ];
   return (
     <>
       <Helmet>
         <title>Super Admin</title>
       </Helmet>
-      <Navbar Nav={Nav} homeLink={"/superadmin/dashboard"}/>
+      <Navbar Nav={Nav} homeLink={"/superadmin/dashboard"} />
 
       <Switch>
         <Route
@@ -43,7 +51,19 @@ function SuperAdmin() {
           path={`${match.url}/dashboard`}
           component={SuperAdminDashboard}
         />
-         <Route
+        <Route
+          path={`${match.url}/events`}
+          component={EventDashboard}
+        />
+        <Route
+          path={`${match.url}/createevent`}
+          component={CreateEvent}
+        />
+        <Route
+          path={`${match.url}/editevent/:id`}
+          component={CreateEvent}
+        />
+        <Route
           path={`${match.url}/createstateadmin`}
           component={CreateStateAdmin}
         />

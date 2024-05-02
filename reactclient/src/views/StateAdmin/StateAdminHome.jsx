@@ -8,6 +8,8 @@ import Navbar from "../../components/Navbar";
 import { getDashboardStyle } from "../../components/customstyles/DashboardStyle";
 import CreateCondidate from "./CreateCondidate";
 import dashboard from "../../assets/dashboard.png";
+import group from "../../assets/group.png";
+import UpdatePassword from "./UpdatePassword/UpdatePassword";
 
 const useStyles = () => {
   const theme = useTheme();
@@ -25,18 +27,28 @@ function SuperAdmin() {
       title: "Dashboard",
       style: styles.navBarIconStyle,
     },
+    {
+      to: `${match.url}/updatepassword`,
+      image: group,
+      title: "Update Password",
+      style: styles.navBarIconStyle,
+    },
   ];
   return (
     <>
       <Helmet>
         <title>State Admin</title>
       </Helmet>
-      <Navbar Nav={Nav} homeLink={"/stateadmin/dashboard"}/>
+      <Navbar Nav={Nav} homeLink={"/stateadmin/dashboard"} />
 
       <Switch>
         <Route
           path={`${match.url}/addcondidate`}
           component={CreateCondidate}
+        />
+        <Route
+          path={`${match.url}/updatepassword`}
+          component={UpdatePassword}
         />
         <Route
           path={`${match.url}/editcondidate/:id`}

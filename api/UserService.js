@@ -4,6 +4,7 @@ const AdminDb = require("../datbase/AdminDb");
 const SchemaValidator = require("../utils/SchemaValidation");
 const JoiSchema = require("./JoiSchema.js");
 const UserEnum = require("../lookup/UserEnum.js")
+const { computeHash, getHashedPassword } = require("../utils/encrypt.js")
 
 const validateCondidateObj = SchemaValidator(
     JoiSchema.validateCreateCondidate,
@@ -74,6 +75,27 @@ router.get(
     })
 );
 
+const changePassword = SchemaValidator(JoiSchema.changePassword, "body", true);
+
+router.post("/changePassword", wrap(changePassword), wrap(async function (req, res) {
+  let transaction = req.transaction;
+  let passwordObj = {
+    password: await getHashedPassword(req.body.newPassword),
+    userId: req.user.userId,
+  };
+  let result = await AdminDb.changePassword(req.dbInstance, passwordObj, transaction);
+  if (result) {
+    await AdminDb.removeAccessTokenFromDB(req.dbInstance, req.user.userId, transaction);
+    return res.status(200).json({
+      statusDescription: "Password has been updated successfully."
+    });
+  } else {
+    return res.status(200).json({
+      statusDescription: "Not able to update the password."
+    });
+  }
+})
+);
 
 router.delete(
     "/logout",

@@ -63,3 +63,8 @@ exports.validateEventData =  Joi.object({
   email: Joi.string().email().required(),
   redirectURL: Joi.string().required().max(100),
 });
+
+exports.changePassword = Joi.object({
+  currentPassword: Joi.string().required(),
+  newPassword: Joi.string().pattern(new RegExp('^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$()≠!%*#_?&^+=-])[A-Za-z0-9$()≠@$!%*#_?&^+=-]{8,}')).required()
+});

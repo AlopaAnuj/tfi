@@ -135,3 +135,18 @@ exports.deleteEventById = async (dbInstance, id) => {
   return dbInstance.sequelize.models.eventDetails.destroy({ where: {id}
   });
 };
+
+exports.changePassword = async (dbInstance, changePasswordObj, transaction) => {
+  return dbInstance.sequelize.models.stateLogin.update({password: changePasswordObj.password},{
+    where: { id: changePasswordObj.userId}, transaction
+  });
+};
+
+exports.removeAccessTokenFromDB = async (dbInstance, userId, transaction) => {
+  return await dbInstance.sequelize.models.tokenDetails.destroy({
+    where: {
+      userId,
+    },
+    transaction,
+  });
+};

@@ -71,6 +71,7 @@ exports.getEventName = (eventData, isObject) => {
   });
   return selectedEvent;
 };
+
 exports.secondaryRoleArray = [
   { "label": "Athlete", "value": "Athlete" },
   { "label": "Coach", "value": "Coach" },
@@ -134,10 +135,10 @@ exports.getSecondaryRole = (secondaryRole, isObject) => {
   return selectedSecondaryRole;
 };
 
-exports.getUserRole = (userRole, isObject) => {
+exports.getUserRole = (userRoles, isObject) => {
   let selecteduserRole;
   userRole.forEach((item) => {
-    if (item.value === userRole) {
+    if (item.value === userRoles) {
       selecteduserRole = isObject ? item : item.label;
     }
   });

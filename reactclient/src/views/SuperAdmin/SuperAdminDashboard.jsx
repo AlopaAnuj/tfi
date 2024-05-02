@@ -47,6 +47,9 @@ function SuperAdminDashboard() {
   const handleCondidateList = (stateId) => {
     history.push("./condidatelist/" + stateId, 0);
   };
+  const handleEditStateAdmin = (Id) => {
+    history.push("./editstateadmin/" + Id, 0);
+  }
   const tablecolumns = [
     {
       name: "stateName",
@@ -102,7 +105,48 @@ function SuperAdminDashboard() {
         },
       },
     },
-
+    {
+      name: "contactPersion",
+      options: {
+        filter: false,
+        sort: true,
+        searchable: false,
+        customHeadLabelRender: () => {
+          return <Typography sx={styles.tableLabelColor}>Contact Person</Typography>;
+        },
+        customBodyRender: (value) => {
+          return <Typography sx={styles.TableBodyText}>{value}</Typography>;
+        },
+      },
+    },
+    {
+      name: "mobileNumber",
+      options: {
+        filter: false,
+        sort: true,
+        searchable: false,
+        customHeadLabelRender: () => {
+          return <Typography sx={styles.tableLabelColor}>Mobile Number</Typography>;
+        },
+        customBodyRender: (value) => {
+          return <Typography sx={styles.TableBodyText}>{value}</Typography>;
+        },
+      },
+    },
+    {
+      name: "email",
+      options: {
+        filter: false,
+        sort: true,
+        searchable: false,
+        customHeadLabelRender: () => {
+          return <Typography sx={styles.tableLabelColor}>Email Id</Typography>;
+        },
+        customBodyRender: (value) => {
+          return <Typography sx={styles.TableBodyText}>{value}</Typography>;
+        },
+      },
+    },
     {
       name: "Action",
       label: <Typography sx={styles.tableLabelColor}>Action</Typography>,
@@ -114,6 +158,7 @@ function SuperAdminDashboard() {
           return (
             <SuperAdminActionButton
               stateId={value.id}
+              handleEditStateAdmin={handleEditStateAdmin}
               handleCondidateList={handleCondidateList}
             />
           );

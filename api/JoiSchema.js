@@ -37,6 +37,9 @@ exports.validateStateAdmin = Joi.object({
   userName: Joi.string().required().max(100),
   role: Joi.number().required(),
   stateName: Joi.string().required(),
+  contactPersion: Joi.string().max(100).required(),
+  mobileNumber:  Joi.string().trim().regex(/^\d+$/).length(10).required(),
+  email: Joi.string().email().required(),
   id: Joi.number().optional()
 });
 

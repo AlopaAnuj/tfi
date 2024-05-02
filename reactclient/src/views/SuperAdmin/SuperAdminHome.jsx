@@ -67,6 +67,10 @@ function SuperAdmin() {
           path={`${match.url}/createstateadmin`}
           component={CreateStateAdmin}
         />
+        <Route
+          path={`${match.url}/editstateadmin/:id`}
+          component={CreateStateAdmin}
+        />
         <Route path={`${match.url}/formReloader`} component={FormReloader} />
         <Redirect to={`${match.url}/dashboard`}></Redirect>
       </Switch>

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useTheme, Stack, Typography, Card } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
@@ -8,6 +8,7 @@ import { string, object, mixed } from "yup";
 import Button from "../../components/customcomponents/CustomButton";
 import GridContainer from "../../components/grid/GridContainer.jsx";
 import CreateStateAdminUI from "./CreateStateAdminUI";
+import EditStateAdminUI from "./EditStateAdminUI";
 
 const useStyles = () => {
     const theme = useTheme();
@@ -50,7 +51,7 @@ const useStyles = () => {
 function CreateStateAdmin(props) {
     const styles = useStyles();
     const history = useHistory();
-    const initialValues = { userName: "", role: "", state: "" };
+    const initialValues = { userName: "", role: "", state: "", contactPersion: "", mobileNumber: "", email: "" };
 
     const requiredMessage = "This field is required.";
     const { makeAuthenticatedApiCall } = useContext(AuthContext);
@@ -60,11 +61,15 @@ function CreateStateAdmin(props) {
     const [headerText, setHeaderText] = useState("");
     const [isError, setIsError] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [editStateAdminData, setEditData] = useState(null);
 
     const yupSchema = object().shape({
         userName: string().required(requiredMessage),
         role: mixed().required(requiredMessage),
-        state: mixed().required(requiredMessage)
+        state: mixed().required(requiredMessage),
+        contactPersion: string().required(requiredMessage),
+        mobileNumber: string().max(10).min(10).required(requiredMessage),
+        email: string().trim().max(100, "Email length too long.").required("This Field is required.").email("Please enter a valid email id."),
     });
 
     const handleSubmit = async (values) => {
@@ -72,7 +77,10 @@ function CreateStateAdmin(props) {
         let dataToSend = {
             userName: values.userName,
             role: values.role.value,
-            stateName: values.state.label
+            stateName: values.state.label,
+            contactPersion: values.contactPersion,
+            mobileNumber: values.mobileNumber,
+            email: values.email
         }
         if (id) {
             dataToSend.id = id;
@@ -96,6 +104,22 @@ function CreateStateAdmin(props) {
         }
     };
 
+    useEffect(() => {
+        if (id) {
+            const getEditData = async () => {
+                let response = await makeAuthenticatedApiCall(
+                    "get",
+                    `/api/superadminservice/getStateAdmin/${id}`
+                );
+                if (response.status === 200) {
+                    setEditData(response.data.result);
+                } else {
+                    setIsError(true);
+                }
+            };
+            getEditData();
+        }
+    }, []);
     const updateDismissDialog = () => {
         setIsSuccess(false);
         if (id) {
@@ -128,12 +152,12 @@ function CreateStateAdmin(props) {
                             {(props) => (
                                 <Form>
                                     <GridContainer>
-                                        {/* {editCondidateData && (
-                      <EditStateAdminUI
-                      editCondidateData={editCondidateData}
-                      />
-                    )} */}
-                                        <CreateStateAdminUI />
+                                        {editStateAdminData && (
+                                            <EditStateAdminUI
+                                            editStateAdminData={editStateAdminData}
+                                            />
+                                        )}
+                                        <CreateStateAdminUI id={id}/>
                                     </GridContainer>
                                     <GridContainer sx={styles.buttonsWrapper}>
                                         <Button

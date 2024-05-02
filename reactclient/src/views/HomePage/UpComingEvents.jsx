@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Grid, Card, Box } from "@mui/material";
+import { Typography, Grid, Card, Box, CircularProgress } from "@mui/material";
 import axios from "axios";
 import { getEventName } from "../StateAdmin/options.js";
 import dayjs from "dayjs";
@@ -17,15 +17,16 @@ const useStyles = () => {
 export default function UpComingEvents() {
     const styles = useStyles();
     const [eventDate, setEventData] = useState(false);
+    const [isLoading, setLoadingBar] = useState(true);
 
     useEffect(() => {
         const getPatientsList = async () => {
             try {
                 let response = await axios.get("/api/userauthservice/getAllEvents");
-
                 if (response.status === 200) {
                     if (response.data.result.length > 0) {
                         setEventData(response.data.result);
+                        setLoadingBar(false)
                     }
                 }
             } catch (error) {
@@ -44,6 +45,7 @@ export default function UpComingEvents() {
                     </Grid>
                 </Grid>
                 <Grid container spacing={2}>
+                    {isLoading&&<CircularProgress />}
                     {eventDate && eventDate.map((item) => {
                         return <Grid item xl={3} lg={3} md={6} xs={12} key={item.id}>
                             <div className={'titleContainer'}>
@@ -75,42 +77,6 @@ export default function UpComingEvents() {
                             </div>
                         </Grid>
                     })}
-                    {/* <Grid item xl={3} lg={3} md={6} xs={12}>
-                        <div className={'titleContainer'}>
-                            <Card style={{ height: "400px" }}>
-                                <div style={{ margin: "20px" }}>
-                                    <Typography style={{ fontWeight: 600, fontSize: "20px", color: "#551A8B" }}>40th NATIONAL JUNIOR KYORUGI & 13th NATIONAL JUNIOR POOMSAE TAEKWONDO CHAMPIONSHIPS	</Typography>
-                                    <Typography style={{ fontWeight: 500, fontSize: "16px", color: "#551A8B" }}>The 39th National Senior Kyorugi and the 12th National Senior Poomsae Taekwondo Championships concluded at the Karambir Nabin Chandra Bordoloi Indoor Stadium, Sarusajai Sports Complex in Guwahati on September 11.</Typography>
-                                    <br />
-                                    <Typography style={{ fontWeight: 400, fontSize: "14px", color: "#551A8B", cursor: "pointer" }}>Read More...</Typography>
-                                </div>
-                            </Card>
-                        </div>
-                    </Grid>
-                    <Grid item xl={3} lg={3} md={6} xs={12}>
-                        <div className={'titleContainer'}>
-                            <Card style={{ height: "400px" }}>
-                                <div style={{ margin: "20px" }}>
-                                    <Typography style={{ fontWeight: 600, fontSize: "20px", color: "#551A8B" }}>39th NATIONAL SENIOR KYORUGI & 12th NATIONAL SENIOR POOMSAE TAEKWONDO CHAMPIONSHIPS	</Typography>
-                                    <Typography style={{ fontWeight: 500, fontSize: "16px", color: "#551A8B" }}>The 39th National Senior Kyorugi and the 12th National Senior Poomsae Taekwondo Championships concluded at the Karambir Nabin Chandra Bordoloi Indoor Stadium, Sarusajai Sports Complex in Guwahati on September 11.</Typography>
-                                    <br />
-                                    <Typography style={{ fontWeight: 400, fontSize: "14px", color: "#551A8B", cursor: "pointer" }}>Read More...</Typography>
-                                </div>
-                            </Card>
-                        </div>
-                    </Grid>
-                    <Grid item xl={3} lg={3} md={6} xs={12}>
-                        <div className={'titleContainer'}>
-                            <Card style={{ height: "400px" }}>
-                                <div style={{ margin: "20px" }}>
-                                    <Typography style={{ fontWeight: 600, fontSize: "20px", color: "#551A8B" }}>39th NATIONAL SENIOR KYORUGI & 12th NATIONAL SENIOR POOMSAE TAEKWONDO CHAMPIONSHIPS	</Typography>
-                                    <Typography style={{ fontWeight: 500, fontSize: "16px", color: "#551A8B" }}>The 39th National Senior Kyorugi and the 12th National Senior Poomsae Taekwondo Championships concluded at the Karambir Nabin Chandra Bordoloi Indoor Stadium, Sarusajai Sports Complex in Guwahati on September 11.</Typography>
-                                    <br />
-                                    <Typography style={{ fontWeight: 400, fontSize: "14px", color: "#551A8B", cursor: "pointer" }}>Read More...</Typography>
-                                </div>
-                            </Card>
-                        </div>
-                    </Grid> */}
                 </Grid>
             </div>
         </div>

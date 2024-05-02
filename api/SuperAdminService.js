@@ -50,14 +50,31 @@ router.post(
       userName: computeHash(req.body.userName),
       password: await getHashedPassword(`${req.body.userName}@123`),
       role: req.body.role,
-      stateName: req.body.stateName
+      stateName: req.body.stateName,
+      contactPersion: req.body.contactPersion,
+      mobileNumber: req.body.mobileNumber,
+      email: req.body.email
     }
     if (req.body.id) {
-      data.id = req.body.id
+      let result = await AdminDb.getUserName(req.dbInstance, req.body.id);
+      data.id = req.body.id;
+      data.userName = result.userName;
+      data.password = result.password;
     }
     await AdminDb.saveAndUpdateStateAdmin(req.dbInstance, data, transaction);
     return res.status(200).json({
       "statusDescription": "Data saved successfully."
+    });
+  })
+);
+
+router.get(
+  "/getStateAdmin/:id",
+  wrap(validateCondidateId),
+  wrap(async (req, res) => {
+    let result = await AdminDb.getStateAdminById(req.dbInstance, req.params.id);
+    return res.status(200).json({
+      result,
     });
   })
 );

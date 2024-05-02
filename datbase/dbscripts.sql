@@ -75,3 +75,9 @@ CREATE TABLE eventDetails (
 
 alter table eventDetails add column redirectURL varchar(100) NOT NULL;
 
+
+alter table stateLogin add column contactPersion varchar(100) NOT NULL;
+alter table stateLogin add column mobileNumber varchar(100) NOT NULL;
+alter table stateLogin add column email varchar(100) NOT NULL;
+
+

@@ -8,6 +8,25 @@ exports.getAllStateUsers = async (dbInstance) => {
   });
 };
 
+exports.getStateAdminById = async (dbInstance, Id) => {
+  return dbInstance.sequelize.models.stateLogin.findOne({
+    where: {
+      id: Id,
+      role: 2
+    }
+  });
+};
+
+exports.getUserName = async (dbInstance, Id) => {
+  return dbInstance.sequelize.models.stateLogin.findOne({
+    attributes: ["userName", "password"],
+    where: {
+      id: Id,
+      role: 2
+    }
+  });
+};
+
 exports.getAllCondidates = async (dbInstance, userId) => {
   return dbInstance.sequelize.models.condidates.findAll({
     where: { userId },

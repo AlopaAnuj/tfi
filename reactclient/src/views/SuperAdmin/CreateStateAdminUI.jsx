@@ -24,6 +24,7 @@ const CreateCondidateUI = (props) => {
                         variant="filled"
                         label="User Name"
                         fullWidth
+                        disabled={props.id?true:false}
                         name="userName"
                         placeholder="User Name"
                     />
@@ -40,12 +41,13 @@ const CreateCondidateUI = (props) => {
                         name="role"
                         label="User Role"
                         options={userRole}
+                        placeholder={""}
                         component={FormikSelectWithLabel}
                         className={"selectstyle"}
                         isSearchable={false}
                         variant="filled"
                         fullWidth
-                        menuPortalTarget={document.body}    
+                        menuPortalTarget={document.body}
                     />
                 </GridItem>
                 <GridItem
@@ -67,7 +69,57 @@ const CreateCondidateUI = (props) => {
                         menuPortalTarget={document.body}
                     />
                 </GridItem>
-            
+                <GridItem
+                    lg={6}
+                    md={6}
+                    sm={12}
+                    xs={12}
+                    sx={styles.formikFieldStyle}
+                    className="SelectWithLabel"
+                >
+                    <Field
+                        component={FormikTextField}
+                        variant="filled"
+                        label="Contact Person"
+                        fullWidth
+                        name="contactPersion"
+                        placeholder="Contact Person"
+                    />
+                </GridItem>
+                <GridItem
+                    lg={6}
+                    md={6}
+                    sm={12}
+                    xs={12}
+                    sx={styles.formikFieldStyle}
+                    className="SelectWithLabel"
+                >
+                    <Field
+                        component={FormikTextField}
+                        variant="filled"
+                        label="Mobile Number"
+                        fullWidth
+                        name="mobileNumber"
+                        placeholder="Mobile Number"
+                    />
+                </GridItem>
+                <GridItem
+                    lg={6}
+                    md={6}
+                    sm={12}
+                    xs={12}
+                    sx={styles.formikFieldStyle}
+                    className="SelectWithLabel"
+                >
+                    <Field
+                        component={FormikTextField}
+                        variant="filled"
+                        label="Email id"
+                        fullWidth
+                        name="email"
+                        placeholder="Email id"
+                    />
+                </GridItem>
             </GridContainer>
         </>
     );
